@@ -1,0 +1,7 @@
+body {
+    background-color: #fafafe;
+}
+
+*:active, *:focus {
+    outline: none !important;
+}

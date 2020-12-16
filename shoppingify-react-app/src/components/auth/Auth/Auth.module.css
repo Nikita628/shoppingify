@@ -1,0 +1,81 @@
+.auth {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 1px 1px 3px #d4d2d2;
+    padding: 15px;
+}
+
+.formHeader {
+    color: #f9a412;
+    border-bottom: 2px solid #f9a412;
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+.authForm {
+    display: flex;
+    flex-flow: column;
+}
+
+.switchButtonContainer {
+    text-align: right;
+}
+
+.authForm div {
+    margin: 10px 0;
+    position: relative;
+}
+
+.input {
+    width: 100%;
+    padding: 10px 10px 10px 50px;
+    color: gray;
+    font-weight: 550;
+    border: none;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.input:active, .input:focus {
+    border-bottom: 1px solid #f9a412;
+}
+
+.submitButton {
+    background-color: #f9a412;
+    font-weight: bold;
+    padding: 5px;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    margin-top: 25px;
+}
+
+.submitButton:hover:not(:disabled) {
+    background-color: #e09718;
+}
+
+.submitButton:active:not(:disabled) {
+    background-color: #c38416;
+}
+
+.submitButton:disabled {
+    opacity: 0.7;
+}
+
+.authForm .switchButtonContainer {
+    margin-bottom: 0;
+}
+
+.switchButton {
+    background: no-repeat;
+    border: none;
+    text-decoration: underline;
+    color: #918f8f;
+}
+
+.inputIcon {
+    position: absolute;
+    top: 7px;
+    color: #c5c5c5;
+    left: 10px;
+}

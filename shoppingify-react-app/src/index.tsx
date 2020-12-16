@@ -5,6 +5,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import configureAuthStore from "./store/auth";
+
+configureAuthStore();
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
