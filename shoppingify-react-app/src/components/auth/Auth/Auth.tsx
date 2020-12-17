@@ -9,13 +9,15 @@ import authApiClient from "../../../services/api-clients/AuthApiClient";
 import authService from "../../../services/utils/AuthService";
 import { useStore } from "../../../store/useStore";
 import { actionTypes } from "../../../store/auth";
+import { IError } from "../../../models/common";
 
 export const Auth = () => {
+    const [appState, dispatch] = useStore();
     const [isSigninMode, setIsSigninMode] = React.useState<boolean>(true);
     const [email, setEmail] = React.useState<string>("");
     const [password, setPassword] = React.useState<string>("");
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
-    const [appState, dispatch] = useStore();
+    const [error, setError] = React.useState<string>("");
 
     const authenticate = () => {
         setIsLoading(true);
@@ -25,8 +27,8 @@ export const Auth = () => {
                     authService.setAuthIntoLocalStorage(res.data);
                     dispatch({ type: actionTypes.signinSuccess, payload: res.data });
                 }).catch((err) => {
-                    console.log(err);
                     setIsLoading(false);
+                    setError(err.response.data.error.message);
                 });
         } else {
             authApiClient.signup(email, password)
@@ -35,9 +37,10 @@ export const Auth = () => {
                     setIsSigninMode(true);
                     setEmail("");
                     setPassword("");
+                    setError("");
                 }).catch((err) => {
-                    console.log(err);
                     setIsLoading(false);
+                    setError(err.response.data.error.message);
                 });
         }
     };
@@ -86,6 +89,8 @@ export const Auth = () => {
                 </button>
 
             </form>
+
+            {error && <p className={css.error}>{error}</p>}
         </div>
     );
 }
