@@ -58,7 +58,10 @@ export const Auth = () => {
                     <button
                         className={css.switchButton}
                         type="button"
-                        onClick={() => setIsSigninMode(!isSigninMode)}>
+                        onClick={() => {
+                            setIsSigninMode(!isSigninMode);
+                            setError("");
+                        }}>
                         {`switch to ${isSigninMode ? "signup" : "signin"}`}
                     </button>
                 </div>
@@ -83,7 +86,7 @@ export const Auth = () => {
                         onChange={(e) => setPassword(e.target.value)} />
                 </div>
 
-                <button disabled={isLoading} className={css.submitButton} type="button" onClick={authenticate}>
+                <button disabled={isLoading || !email || !password} className={css.submitButton} type="button" onClick={authenticate}>
                     {isSigninMode ? "SIGNIN" : "SIGNUP"}
                     {isLoading && <Spinner style={{ margin: "0 0 0 5px" }} size="sm" animation="border" />}
                 </button>

@@ -8,7 +8,8 @@ export const AuthLayout = () => {
     return (
         <Container>
             <Row>
-                <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }}>
+                <Col md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }}
+                    style={{ paddingTop: "40px" }}>
                     <Switch>
                         <Route path="/auth" exact component={Auth} />
                         <Route path="/" render={() => <Redirect to="/auth" />} />
