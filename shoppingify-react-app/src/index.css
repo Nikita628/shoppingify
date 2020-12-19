@@ -1,5 +1,9 @@
+html, body, #root {
+    height: 100%;
+}
+
 body {
-    background-color: #fafafe;
+    background-color: #f7f7fd;
 }
 
 *:active, *:focus {

@@ -4,3 +4,10 @@ export const constants = {
     tokenExpDateStorageKey: "shoppingify-app-token-exp-date",
     currentUserIdStorageKey: "shoppingify-app-user-id",
 };
+
+export enum SideDrawerMode {
+    ListCreation = 1,
+    ListCompletion = 2,
+    ItemDetails = 3,
+    ItemCreation = 4,
+}

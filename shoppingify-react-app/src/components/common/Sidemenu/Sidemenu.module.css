@@ -1,0 +1,64 @@
+.sidemenu {
+    display: flex;
+    flex-flow: column nowrap;
+    background-color: white;
+}
+
+.top, .middle, .bottom {
+    flex: 1 1 33.33%;
+    align-items: center;
+}
+
+.top {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: start;
+}
+
+.middle {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+}
+
+.bottom {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: end;
+}
+
+.menuIcon {
+    margin: 15px 30px;
+    cursor: pointer;
+    font-size: 26px !important;
+}
+
+.middle a {
+    color: black;
+    margin: 10px 0;
+}
+
+.activeMenuItem {
+    border-right: 7px solid #f9a412 !important;
+}
+
+.cartIconContainer {
+    padding: 15px;
+    border-radius: 100%;
+    margin-bottom: 15px;
+    background-color: white;
+    color: #f9a412;
+    border: 3px solid #f9a412;
+}
+
+.activeCartIconContainer {
+    padding: 15px;
+    border-radius: 100%;
+    background-color: #f9a412;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.cartIconContainer .menuIcon, .activeCartIconContainer .menuIcon {
+    margin: 0;
+}

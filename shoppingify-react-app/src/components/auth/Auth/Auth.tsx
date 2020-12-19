@@ -70,7 +70,7 @@ export const Auth = () => {
                     <Email className={css.inputIcon} fontSize="large" />
                     <input
                         className={css.input}
-                        type="text"
+                        type="email"
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)} />

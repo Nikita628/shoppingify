@@ -1,18 +1,34 @@
 import { useState, useEffect } from "react";
+import { SideDrawerMode } from "../common/data";
 import { IAuthState } from "./auth";
 
 export interface IAppState {
     auth?: IAuthState;
+    sidedrawerMode?: SideDrawerMode;
+    isSideDrawerOpened?: boolean;
 }
 
 export interface IAction<PayloadType = any> {
     type: string;
-    payload: PayloadType;
+    payload?: PayloadType;
 }
 
-let appState: IAppState = {};
+export const appActionTypes = {
+    openSidedrawer: "App/OpenSidedrawer",
+    closeSideDrawer: "App/CloseSidedrawer",
+};
+
+let appReducer: { [key: string]: (state: IAppState, action: IAction) => IAppState } = {
+    [appActionTypes.openSidedrawer]: (state, action) => ({ ...state, isSideDrawerOpened: true }),
+    [appActionTypes.closeSideDrawer]: (state, action) => ({ ...state, isSideDrawerOpened: false }),
+};
+
 let listeners: ((state: IAppState) => void)[] = [];
-let appReducer: { [key: string]: (state: IAppState, action: IAction) => IAppState } = {};
+let appState: IAppState = {
+    auth: null,
+    sidedrawerMode: SideDrawerMode.ListCreation,
+    isSideDrawerOpened: false,
+};
 
 export const useStore = (): [IAppState, (action: IAction) => void] => {
     const setAppState = useState(appState)[1];
@@ -37,7 +53,7 @@ export const useStore = (): [IAppState, (action: IAction) => void] => {
     return [appState, dispatch];
 };
 
-export function initStore (
+export function initStore(
     reducer: { [actionType: string]: (state: IAppState, action: IAction) => IAppState },
     initialState: IAppState
 ): void {

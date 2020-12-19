@@ -16,25 +16,34 @@ class AuthService {
         const newExpDate = (new Date().getTime() + expiresIn).toString();
         localStorage.setItem(constants.tokenExpDateStorageKey, newExpDate);
 
+        this.autoLogoutAfterTimeout(expiresIn);
+
         return true;
     };
+
+    public autoLogoutAfterTimeout(timeoutMs: number): void {
+        setTimeout(() => {
+            this.logout();
+        }, timeoutMs);
+    }
 
     public setAuthIntoLocalStorage(res: SigninResponse): void {
         localStorage.setItem(constants.tokenStorageKey, res.idToken);
         localStorage.setItem(constants.currentUserIdStorageKey, res.localId);
-        const hourFromNow = (new Date().getTime() + 3600000).toString();
+        const hourFromNow = (new Date().getTime() + 3_600_000).toString();
         localStorage.setItem(constants.tokenExpDateStorageKey, hourFromNow);
-
-        setTimeout(() => {
-            this.clearAuthFromLocalStorage();
-            window.location.reload();
-        }, +hourFromNow - 300000);
+        this.autoLogoutAfterTimeout(+hourFromNow - 300_000);
     }
 
     public clearAuthFromLocalStorage(): void {
         localStorage.removeItem(constants.tokenStorageKey);
         localStorage.removeItem(constants.tokenExpDateStorageKey);
         localStorage.removeItem(constants.currentUserIdStorageKey);
+    }
+
+    public logout(): void {
+        this.clearAuthFromLocalStorage();
+        window.location.reload();
     }
 }
 
