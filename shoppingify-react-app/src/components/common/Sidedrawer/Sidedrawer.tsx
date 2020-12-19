@@ -9,11 +9,9 @@ export const Sidedrawer = () => {
     const [appState, dispatch] = useStore();
 
     return (
-        appState.isSideDrawerOpened
-            ? <div className={coClass(css.sidedrawer)}>
-                sidedrawer
-            </div>
-            : null
+        <div className={coClass(css.sidedrawer, appState.isSideDrawerOpened ? css.opened : null)}>
+            sidedrawer
+        </div>
     );
 }
 
