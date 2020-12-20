@@ -9,10 +9,9 @@ import authApiClient from "../../../services/api-clients/AuthApiClient";
 import authService from "../../../services/utils/AuthService";
 import { useStore } from "../../../store/useStore";
 import { actionTypes } from "../../../store/auth";
-import { IError } from "../../../models/common";
 
 export const Auth = () => {
-    const [appState, dispatch] = useStore();
+    const dispatch = useStore(false)[1];
     const [isSigninMode, setIsSigninMode] = React.useState<boolean>(true);
     const [email, setEmail] = React.useState<string>("");
     const [password, setPassword] = React.useState<string>("");

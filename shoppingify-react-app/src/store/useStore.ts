@@ -30,7 +30,7 @@ let appState: IAppState = {
     isSideDrawerOpened: false,
 };
 
-export const useStore = (): [IAppState, (action: IAction) => void] => {
+export const useStore = (shouldListenToStateUpdates = true): [IAppState, (action: IAction) => void] => {
     const setAppState = useState(appState)[1];
 
     const dispatch = (action: IAction) => {
@@ -43,12 +43,16 @@ export const useStore = (): [IAppState, (action: IAction) => void] => {
     };
 
     useEffect(() => {
-        listeners.push(setAppState);
+        if (shouldListenToStateUpdates) {
+            listeners.push(setAppState);
+        }
 
         return () => {
-            listeners = listeners.filter(l => l !== setAppState);
+            if (shouldListenToStateUpdates) {
+                listeners = listeners.filter(l => l !== setAppState);
+            }
         };
-    }, [setAppState]);
+    }, [setAppState, shouldListenToStateUpdates]);
 
     return [appState, dispatch];
 };

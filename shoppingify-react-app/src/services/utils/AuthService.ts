@@ -32,7 +32,7 @@ class AuthService {
         localStorage.setItem(constants.currentUserIdStorageKey, res.localId);
         const hourFromNow = (new Date().getTime() + 3_600_000).toString();
         localStorage.setItem(constants.tokenExpDateStorageKey, hourFromNow);
-        this.autoLogoutAfterTimeout(+hourFromNow - 300_000);
+        this.autoLogoutAfterTimeout(3_600_000);
     }
 
     public clearAuthFromLocalStorage(): void {
