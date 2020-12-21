@@ -5,8 +5,8 @@
     background-color: white;
     transition: transform 250ms ease-out;
     border-left: 1px solid #eee;
-    width: 100%;
-    margin-left: 90px;/* sidemenu width */
+    width: calc(100% - 90px);/* side menu width */
+    overflow: auto;
 }
 
 .opened {
@@ -19,7 +19,6 @@
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
     .sidedrawer {
-        margin-left: 0;
         width: 50%;
     }
 }

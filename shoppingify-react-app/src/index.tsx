@@ -7,8 +7,10 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
 
 import configureAuthStore from "./store/auth";
+import configureCommonStore from "./store/common";
 
 configureAuthStore();
+configureCommonStore();
 
 ReactDOM.render(
   <React.StrictMode>

@@ -1,0 +1,18 @@
+.input {
+    color: #616161;
+    font-weight: 500;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.focused {
+    border: 2px solid #f9a412;
+}
+
+.primary {
+    border: 2px solid #f9a412;
+}
+
+.secondary {
+    border: 2px solid #c1c1c4;
+}

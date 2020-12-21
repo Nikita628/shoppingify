@@ -20,7 +20,7 @@ export const Toggle = (props: ToggleProps) => {
             }}>
             <span
                 className={css.switch}
-                style={{ marginRight: isOn ? "30px" : "0" }}>
+                style={{ marginRight: isOn ? "30px" : "0", marginLeft: isOn ? "0" : "30px" }}>
             </span>
         </div>
     );

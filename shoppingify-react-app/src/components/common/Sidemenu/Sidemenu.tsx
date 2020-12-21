@@ -8,18 +8,20 @@ import ShoppingCart from '@material-ui/icons/ShoppingCart';
 
 import css from "./Sidemenu.module.css";
 import authService from "../../../services/utils/AuthService";
-import { useStore, appActionTypes } from "../../../store/useStore";
+import { useStore } from "../../../store/useStore";
+import { actionTypes as commonAT } from "../../../store/common";
 import OverlayTrigger from "react-bootstrap/esm/OverlayTrigger";
 import Tooltip from "react-bootstrap/esm/Tooltip";
 
 export const Sidemenu = () => {
     const [appState, dispatch] = useStore();
+    const commonState = appState.common;
 
     const toggleSidedrawer = () => {
-        if (appState.isSideDrawerOpened) {
-            dispatch({ type: appActionTypes.closeSideDrawer });
+        if (commonState.isSideDrawerOpened) {
+            dispatch({ type: commonAT.closeSideDrawer });
         } else {
-            dispatch({ type: appActionTypes.openSidedrawer });
+            dispatch({ type: commonAT.openSidedrawer });
         }
     }
 
@@ -69,7 +71,7 @@ export const Sidemenu = () => {
 
             <div className={css.bottom}>
                 <div
-                    className={appState.isSideDrawerOpened ? css.activeCartIconContainer : css.cartIconContainer}
+                    className={commonState.isSideDrawerOpened ? css.activeCartIconContainer : css.cartIconContainer}
                     onClick={toggleSidedrawer}>
                     <OverlayTrigger
                         placement="right"
