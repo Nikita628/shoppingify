@@ -12,6 +12,7 @@ import { useStore } from "../../../store/useStore";
 import { actionTypes as commonAT } from "../../../store/common";
 import OverlayTrigger from "react-bootstrap/esm/OverlayTrigger";
 import Tooltip from "react-bootstrap/esm/Tooltip";
+import { SideDrawerMode } from "../../../common/data";
 
 export const Sidemenu = () => {
     const [appState, dispatch] = useStore();
@@ -24,6 +25,8 @@ export const Sidemenu = () => {
             dispatch({ type: commonAT.openSidedrawer });
         }
     }
+
+    const shouldHightlightMenuButton = commonState.isSideDrawerOpened;
 
     return (
         <div className={css.sidemenu}>
@@ -71,7 +74,7 @@ export const Sidemenu = () => {
 
             <div className={css.bottom}>
                 <div
-                    className={commonState.isSideDrawerOpened ? css.activeCartIconContainer : css.cartIconContainer}
+                    className={shouldHightlightMenuButton ? css.activeCartIconContainer : css.cartIconContainer}
                     onClick={toggleSidedrawer}>
                     <OverlayTrigger
                         placement="right"

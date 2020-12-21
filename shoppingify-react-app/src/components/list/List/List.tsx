@@ -18,7 +18,7 @@ export const List = (props: ListProps) => {
 
             <div className={css.body}>
                 <div className={css.header}>
-                    <img className={css.bottle} src={bottle} alt="" style={{ width: "80px", marginRight: "15px" }} />
+                    <img className={css.bottle} src={bottle} alt="bottle" />
                     <div>
                         <h5>Didn't find what you need?</h5>
                         <button className={css.addItemButton}>Add Item</button>
