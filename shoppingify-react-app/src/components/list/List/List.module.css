@@ -4,11 +4,41 @@
     display: flex;
     flex-flow: column nowrap;
     background-color: #fff0de;
+    overflow-x: hidden;
+}
+
+.header {
+    background-color: #80485b;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+}
+
+.header h5 {
+    color: white;
+    margin: 10px 0;
 }
 
 .body {
     flex-grow: 1;
     padding: 15px 15px 0 15px;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.noItems {
+    margin: 30px 0;
 }
 
 .footer {
@@ -36,4 +66,12 @@
     position: absolute;
     right: 0;
     height: 100%;
+}
+
+.addItemButton {
+    background-color: white;
+    border: none;
+    font-weight: 600;
+    border-radius: 5px;
+    padding: 5px 10px;
 }
