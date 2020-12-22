@@ -2,9 +2,10 @@ import React from "react";
 
 import css from "./Select.module.css";
 import { coClass } from "../../../common/functions";
+import { IdName } from "../../../models/common";
 
 export interface SelectProps {
-    options: { id: number, name: string }[];
+    options: IdName[];
     value?: number | string;
     className?: string;
     style?: React.CSSProperties;

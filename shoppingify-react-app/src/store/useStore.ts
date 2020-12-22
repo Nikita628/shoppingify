@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 
 import { IAuthState } from "./auth";
+import { ICategoryState } from "./category";
 import { ICommonState } from "./common";
 
 export interface IAppState {
     auth?: IAuthState;
     common?: ICommonState;
+    category?: ICategoryState;
 }
 
 export interface IAction<PayloadType = any> {

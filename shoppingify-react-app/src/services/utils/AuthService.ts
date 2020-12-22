@@ -6,8 +6,9 @@ class AuthService {
         const token = localStorage.getItem(constants.tokenStorageKey);
         const userId = localStorage.getItem(constants.currentUserIdStorageKey);
         const tokenExpDate = localStorage.getItem(constants.tokenExpDateStorageKey);
+        const email = localStorage.getItem(constants.currentUserEmailStorageKey);
 
-        if (!token || !userId || !tokenExpDate) return false;
+        if (!token || !userId || !tokenExpDate || !email) return false;
 
         const expiresIn = +tokenExpDate - new Date().getTime();
 
@@ -30,6 +31,7 @@ class AuthService {
     public setAuthIntoLocalStorage(res: SigninResponse): void {
         localStorage.setItem(constants.tokenStorageKey, res.idToken);
         localStorage.setItem(constants.currentUserIdStorageKey, res.localId);
+        localStorage.setItem(constants.currentUserEmailStorageKey, res.email);
         const hourFromNow = (new Date().getTime() + 3_600_000).toString();
         localStorage.setItem(constants.tokenExpDateStorageKey, hourFromNow);
         this.autoLogoutAfterTimeout(3_600_000);
@@ -39,6 +41,7 @@ class AuthService {
         localStorage.removeItem(constants.tokenStorageKey);
         localStorage.removeItem(constants.tokenExpDateStorageKey);
         localStorage.removeItem(constants.currentUserIdStorageKey);
+        localStorage.removeItem(constants.currentUserEmailStorageKey);
     }
 
     public logout(): void {

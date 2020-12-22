@@ -4,11 +4,13 @@ import { IAction, IAppState, initStore } from "./useStore";
 export interface IAuthState {
     token: string;
     currentUserId: string;
+    currentUserEmail: string;
 }
 
 const initialState: IAuthState = {
     token: null,
     currentUserId: null,
+    currentUserEmail: null,
 };
 
 export const actionTypes = {
@@ -23,6 +25,7 @@ const configureStore = () => {
                     ...state.auth,
                     token: action.payload.idToken,
                     currentUserId: action.payload.localId,
+                    currentUserEmail: action.payload.email,
                 }
             };
         }
