@@ -3,7 +3,7 @@ import { coClass } from "../../../common/functions";
 import css from "./Button.module.css";
 
 export interface ButtonProps {
-    type: "primary" | "secondary";
+    type: "primary" | "secondary" | "white";
     style?: React.CSSProperties;
     className?: string;
     children?: React.ReactNode;

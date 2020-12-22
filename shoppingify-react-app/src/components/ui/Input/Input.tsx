@@ -9,6 +9,7 @@ export interface InputProps {
     className?: string;
     placeholder?: string;
     highlightFocused?: boolean;
+    id?: string;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -25,6 +26,7 @@ export const Input = (props: InputProps) => {
 
     return (
         <input
+            id={props.id}
             ref={inputRef}
             style={props.style}
             className={coClass(css.input, props.className, isFocused ? css.focused : null, css[props.styleType])}

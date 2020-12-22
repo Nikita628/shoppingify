@@ -2,6 +2,7 @@
     padding: 10px 15px 10px 15px;
     border-radius: 8px;
     border: none;
+    font-weight: 600;
 }
 
 .primary {
@@ -12,4 +13,9 @@
 .secondary {
     background-color: #c1c1c4;
     color: white;
+}
+
+.white {
+    color: #333;
+    background-color: white;
 }

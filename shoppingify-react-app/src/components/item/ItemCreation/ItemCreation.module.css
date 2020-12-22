@@ -1,0 +1,40 @@
+.itemCreation {
+    height: 100%;
+    padding: 20px;
+}
+
+.itemCreation h3 {
+    margin-bottom: 20px;
+}
+
+.itemCreation label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.itemCreation form div {
+    margin: 20px 0;
+}
+
+.input {
+    width: 100%;
+}
+
+.buttons {
+    text-align: center;
+}
+
+textarea {
+    resize: none;
+    border: 2px solid #c1c1c4;
+    color: #616161;
+    font-weight: 500;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+textarea:focus {
+    border: 2px solid #f9a412 !important;
+}

@@ -5,13 +5,13 @@ import FormatListBulleted from '@material-ui/icons/FormatListBulleted';
 import History from '@material-ui/icons/History';
 import InsertChartOutlined from '@material-ui/icons/InsertChartOutlined';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
+import OverlayTrigger from "react-bootstrap/esm/OverlayTrigger";
+import Tooltip from "react-bootstrap/esm/Tooltip";
 
 import css from "./Sidemenu.module.css";
 import authService from "../../../services/utils/AuthService";
 import { useStore } from "../../../store/useStore";
 import { actionTypes as commonAT } from "../../../store/common";
-import OverlayTrigger from "react-bootstrap/esm/OverlayTrigger";
-import Tooltip from "react-bootstrap/esm/Tooltip";
 import { SideDrawerMode } from "../../../common/data";
 
 export const Sidemenu = () => {
