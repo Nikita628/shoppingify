@@ -26,7 +26,7 @@ export const Select = (props: SelectProps) => {
     }
 
     if (props.canCreate) {
-        options.push(<option value="add" key="add" onClick={props.onAddNew}>Add new +</option>);
+        options.push(<option value="add" key="add" onClick={props.onAddNew}>New Option &#43;</option>);
     }
 
     const onChanged = (e: React.ChangeEvent<HTMLSelectElement>): void => {

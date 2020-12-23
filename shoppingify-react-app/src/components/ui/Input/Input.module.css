@@ -5,8 +5,8 @@
     border-radius: 8px;
 }
 
-.focused {
-    border: 2px solid #f9a412 !important;
+.input.focused {
+    border: 2px solid #f9a412;
 }
 
 .primary {
@@ -15,4 +15,8 @@
 
 .secondary {
     border: 2px solid #c1c1c4;
+}
+
+.error {
+    border: 2px solid red !important;
 }

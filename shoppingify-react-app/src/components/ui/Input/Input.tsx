@@ -4,7 +4,7 @@ import css from "./Input.module.css";
 
 export interface InputProps {
     type: string;
-    styleType: "primary" | "secondary";
+    styleType: "primary" | "secondary" | "error";
     style?: React.CSSProperties;
     className?: string;
     placeholder?: string;
@@ -29,7 +29,7 @@ export const Input = (props: InputProps) => {
             id={props.id}
             ref={inputRef}
             style={props.style}
-            className={coClass(css.input, props.className, isFocused ? css.focused : null, css[props.styleType])}
+            className={coClass(css.input, props.className, css[props.styleType], isFocused ? css.focused : null )}
             type={props.type}
             placeholder={props.placeholder}
             onChange={props.onChange}

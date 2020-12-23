@@ -7,10 +7,7 @@ import { useStore } from "./store/useStore";
 import { actionTypes as authActionTypes } from "./store/auth";
 import { AuthLayout } from './components/auth/AuthLayout/AuthLayout';
 import authService from "./services/utils/AuthService";
-import categoryApiClient from "./services/api-clients/CategoryApiClient";
-import { Category, CategorySearchParam } from './models/category';
-import { IApiResponse, IError } from './models/common';
-import { actionTypes as categoryAT } from "./store/category";
+import categoryService from "./services/utils/CategoryService";
 
 function App() {
   const [appState, dispatch] = useStore();
@@ -35,15 +32,7 @@ function App() {
     payload: { idToken: token, localId: userId, email: email }
   });
 
-  categoryApiClient.search(new CategorySearchParam({ createdById: userId }))
-    .then((res: IApiResponse) => {
-      const categories = Object.keys(res.data).map(k => Category.toModel({ ...res.data[k], id: k }));
-      dispatch({ type: categoryAT.searchCategoriesSuccess, payload: categories });
-    })
-    .catch((err: IError) => {
-      // TODO error modal
-      console.log(err);
-    });
+  categoryService.getAllCategories(dispatch, userId);
 
   return null;
 }
