@@ -11,7 +11,7 @@ import { useStore } from "../../../store/useStore";
 import { actionTypes } from "../../../store/auth";
 
 export const Auth = () => {
-    const dispatch = useStore(false)[1];
+    const dispatch = useStore()[1];
     const [isSigninMode, setIsSigninMode] = React.useState<boolean>(true);
     const [email, setEmail] = React.useState<string>("");
     const [password, setPassword] = React.useState<string>("");

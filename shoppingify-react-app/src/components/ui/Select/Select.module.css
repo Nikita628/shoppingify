@@ -26,5 +26,9 @@
 }
 
 .select:focus {
-    border: 2px solid #f9a412 !important;
+    border: 2px solid #f9a412;
+}
+
+.invalid {
+    border: 2px solid red !important; 
 }

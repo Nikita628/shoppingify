@@ -24,29 +24,42 @@ let appState: IAppState = {
     common: null,
 };
 
-export const useStore = (shouldListenToStateUpdates = true): [IAppState, (action: IAction) => void] => {
+export const useStore = (
+    listenToSliceUpdate?: "auth" | "category" | "common" | "all"
+): [IAppState, (action: IAction) => void] => {
     const setAppState = useState(appState)[1];
 
     const dispatch = (action: IAction) => {
-        const newStateSlice = appReducer[action.type](appState, action);
+        const newStateSlice: any = appReducer[action.type](appState, action);
         appState = { ...appState, ...newStateSlice };
 
+        let needToNotifyCurrentListener = false;
+
+        if (listenToSliceUpdate === "all"
+            || (listenToSliceUpdate && newStateSlice[listenToSliceUpdate])) {
+            needToNotifyCurrentListener = true;
+        }
+
         for (const l of listeners) {
+            if (l === setAppState && !needToNotifyCurrentListener) {
+                continue;
+            }
+
             l(appState);
         }
     };
 
     useEffect(() => {
-        if (shouldListenToStateUpdates) {
+        if (listenToSliceUpdate) {
             listeners.push(setAppState);
         }
 
         return () => {
-            if (shouldListenToStateUpdates) {
+            if (listenToSliceUpdate) {
                 listeners = listeners.filter(l => l !== setAppState);
             }
         };
-    }, [setAppState, shouldListenToStateUpdates]);
+    }, [setAppState, listenToSliceUpdate]);
 
     return [appState, dispatch];
 };

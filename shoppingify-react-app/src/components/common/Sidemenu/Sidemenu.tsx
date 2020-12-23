@@ -15,7 +15,7 @@ import { actionTypes as commonAT } from "../../../store/common";
 import { SideDrawerMode } from "../../../common/data";
 
 export const Sidemenu = () => {
-    const [appState, dispatch] = useStore();
+    const [appState, dispatch] = useStore("all");
     const commonState = appState.common;
 
     const toggleSidedrawer = () => {

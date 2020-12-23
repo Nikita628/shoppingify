@@ -12,6 +12,7 @@ export interface SelectProps {
     canCreate?: boolean;
     name?: string;
     id?: string;
+    isInvalid?: boolean;
     onSelected?: (value: number | string) => void;
     onAddNew?: () => void;
 }
@@ -38,7 +39,7 @@ export const Select = (props: SelectProps) => {
             setSelectedValue(e.target.options[idx].value);
 
             if (props.onSelected) {
-                props.onSelected(e.target.options[idx].value !== "selected" ? e.target.options[idx].value : null);
+                props.onSelected(e.target.options[idx].value === "select" ? null : e.target.options[idx].value);
             }
         }
     }
@@ -46,7 +47,7 @@ export const Select = (props: SelectProps) => {
     return (
         <select
             value={selectedValue}
-            className={coClass(css.select, props.className)}
+            className={coClass(css.select, props.className, props.isInvalid ? css.invalid : null)}
             style={props.style}
             name={props.name}
             id={props.id}

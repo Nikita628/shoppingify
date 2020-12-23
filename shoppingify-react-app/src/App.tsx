@@ -10,9 +10,10 @@ import authService from "./services/utils/AuthService";
 import categoryService from "./services/utils/CategoryService";
 
 function App() {
-  const [appState, dispatch] = useStore();
+  const [appState, dispatch] = useStore("auth");
 
   if (appState.auth.currentUserId && appState.auth.token) {
+    categoryService.getAllCategories(dispatch, appState.auth.currentUserId);
     return (<Layout />);
   }
 
@@ -31,8 +32,6 @@ function App() {
     type: authActionTypes.signinSuccess,
     payload: { idToken: token, localId: userId, email: email }
   });
-
-  categoryService.getAllCategories(dispatch, userId);
 
   return null;
 }

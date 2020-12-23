@@ -8,13 +8,70 @@ import { actionTypes as commonAT } from "../../../store/common";
 import { SideDrawerMode } from "../../../common/data";
 import { Select } from "../../ui/Select/Select";
 import { CategoryCreation } from "../../category/CategoryCreation/CategoryCreation";
+import { Item } from "../../../models/item";
+import { User } from "../../../models/user";
+import itemApiClient from "../../../services/api-clients/ItemApiClient";
 
 export const ItemCreation = () => {
-    const [appState, dispatch] = useStore();
+    const [appState, dispatch] = useStore("all");
     const [isAddCategoryModalOpened, setIsAddCategoryModalOpened] = React.useState(false);
+    const [name, setName] = React.useState<string>(null);
+    const [categoryId, setCategoryId] = React.useState<string>(null);
+    const [imgUrl, setImgUrl] = React.useState<string>(null);
+    const [note, setNote] = React.useState<string>(null);
+    const [nameError, setNameError] = React.useState<string>(null);
+    const [categoryError, setCategoryError] = React.useState<string>(null);
 
     const switchToList = (): void => {
         dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ListCreation });
+    }
+
+    const changeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNameError(null);
+        setName(e.target.value)
+    }
+
+    const changeCategory = (value: string | number) => {
+        setCategoryError(null);
+        setCategoryId(value as string)
+    }
+
+    const createItem = (): void => {
+        let isError = false;
+
+        if (!name) {
+            setNameError("Name is required");
+            isError = true;
+        }
+
+        if (!categoryId) {
+            setCategoryError("Category is required");
+            isError = true;
+        }
+
+        if (isError) return;
+
+        const newItem = new Item({
+            name: name,
+            createdDate: new Date(),
+            createdBy: new User({
+                id: appState.auth.currentUserId,
+                email: appState.auth.currentUserEmail
+            }),
+            note: note,
+            imgUrl: imgUrl,
+            category: appState.category.categories.find(c => c.id === categoryId),
+        });
+
+        itemApiClient.create(newItem)
+            .then(res => {
+                console.log(res);
+                // TODO add new item into state
+                // switch to item details
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     return (
@@ -23,28 +80,60 @@ export const ItemCreation = () => {
             <form>
                 <div>
                     <label htmlFor="name">Name</label>
-                    <Input className={css.input} id="name" type="text" styleType="secondary" highlightFocused placeholder="Enter a name" />
+                    <Input
+                        className={css.input}
+                        id="name"
+                        type="text"
+                        styleType={nameError ? "error" : "secondary"}
+                        highlightFocused
+                        placeholder="Enter a name"
+                        onChange={changeName}
+                    />
+                    {nameError && <div className={css.error}>{nameError}</div>}
                 </div>
 
                 <div>
                     <label htmlFor="name">Note (optional)</label>
-                    <textarea className={css.input} name="note" id="note" cols={30} rows={10} placeholder="Enter a note"></textarea>
+                    <textarea
+                        className={css.input}
+                        name="note"
+                        id="note"
+                        cols={30}
+                        rows={10}
+                        placeholder="Enter a note"
+                        onChange={e => setNote(e.target.value)}
+                    ></textarea>
                 </div>
 
                 <div>
                     <label htmlFor="name">Image (optional)</label>
-                    <Input className={css.input} id="name" type="text" styleType="secondary" highlightFocused placeholder="Enter a url" />
+                    <Input
+                        className={css.input}
+                        id="name"
+                        type="text"
+                        styleType="secondary"
+                        highlightFocused
+                        placeholder="Enter a url"
+                        onChange={e => setImgUrl(e.target.value)}
+                    />
                 </div>
 
                 <div>
                     <label htmlFor="name">Category</label>
-                    <Select options={appState.category.categories} canCreate onAddNew={() => setIsAddCategoryModalOpened(true)} />
+                    <Select
+                        isInvalid={!!categoryError}
+                        options={appState.category.categories}
+                        canCreate
+                        onAddNew={() => setIsAddCategoryModalOpened(true)}
+                        onSelected={changeCategory}
+                    />
+                    {categoryError && <div className={css.error}>{categoryError}</div>}
                 </div>
 
                 <div className={css.buttons}>
                     <Button type="white" onClick={switchToList}>cancel</Button>
                     {" "}
-                    <Button type="primary">Save</Button>
+                    <Button type="primary" onClick={createItem}>Save</Button>
                 </div>
             </form>
 

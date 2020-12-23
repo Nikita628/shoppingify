@@ -38,3 +38,13 @@ textarea {
 textarea:focus {
     border: 2px solid #f9a412 !important;
 }
+
+.itemCreation form div.error {
+    font-size: small;
+    color: red;
+    margin: 0;
+}
+
+.invalid {
+    border: 2px solid red !important; 
+}
