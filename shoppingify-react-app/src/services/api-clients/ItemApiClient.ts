@@ -11,6 +11,10 @@ class ItemApiClient {
         return axios.post<IApiResponse>(`${constants.apiUrl}/${this.endpoint}`, item);
     }
 
+    public delete(itemId: string): Promise<AxiosResponse<IApiResponse>> {
+        return axios.delete<IApiResponse>(`${constants.apiUrl}/item/${itemId}.json`);
+    }
+
     // public search(param: CategorySearchParam): Promise<AxiosResponse<IApiResponse>> {
     //     let urlParam = "";
 

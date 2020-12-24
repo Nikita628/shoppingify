@@ -17,7 +17,7 @@ export interface IAction<PayloadType = any> {
     payload?: PayloadType;
 }
 
-let appReducer: { [key: string]: (state: IAppState, action: IAction) => IAppState } = {};
+let appReducer: { [key: string]: (state: IAppState, action: IAction) => IAppState } = {}; // TODO array of these
 
 let listeners: ((state: IAppState) => void)[] = [];
 
@@ -32,6 +32,7 @@ export const useStore = (
     const setAppState = useState(appState)[1];
 
     const dispatch = (action: IAction) => {
+        // iterate over the array, if object contains the key, execute the function
         const newStateSlice: any = appReducer[action.type](appState, action);
         appState = { ...appState, ...newStateSlice };
 

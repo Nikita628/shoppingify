@@ -7,10 +7,12 @@ import { Button } from "../../ui/Button/Button";
 import { actionTypes as commonAT } from "../../../store/common";
 import { SideDrawerMode } from "../../../common/data";
 import { Modal } from "react-bootstrap";
+import itemApiClient from "../../../services/api-clients/ItemApiClient";
 
 export const ItemDetails = () => {
     const [appState, dispatch] = useStore("item");
     const [isDeleteItemModalOpened, setIsDeleteItemModalOpened] = React.useState(false);
+    const [isDeleting, setIsDeleting] = React.useState(false);
 
     const itemState = appState.item;
 
@@ -18,6 +20,21 @@ export const ItemDetails = () => {
 
     const switchToList = (): void => {
         dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ListCreation });
+    }
+
+    const deleteItem = (): void => {
+        setIsDeleting(true);
+        itemApiClient.delete(itemState.item.id)
+            .then(res => {
+                console.log(res);
+                // TODO set item to null in state
+                // delete item from state (single and from categories)
+                switchToList();
+            })
+            .catch(err => {
+                setIsDeleting(false);
+                console.log(err);
+            });
     }
 
     return (
@@ -65,7 +82,7 @@ export const ItemDetails = () => {
                     <Button type="white" onClick={() => setIsDeleteItemModalOpened(false)}>
                         cancel
                     </Button>
-                    <Button type="primary" onClick={() => setIsDeleteItemModalOpened(false)}>
+                    <Button disabled={isDeleting} type="primary" onClick={deleteItem}>
                         Delete
                     </Button>
                 </Modal.Footer>
