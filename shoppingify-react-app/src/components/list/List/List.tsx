@@ -8,6 +8,7 @@ import css from "./List.module.css";
 import bottle from "../../../assets/bottle.png";
 import { actionTypes as commonAT } from "../../../store/common";
 import { SideDrawerMode } from "../../../common/data";
+import { coClass } from "../../../common/functions";
 
 export interface ListProps {
 
@@ -37,7 +38,7 @@ export const List = (props: ListProps) => {
                     <Toggle isOn={false} onToggle={() => { }} />
                 </div>
 
-                <div className={css.content}>
+                <div className={coClass(css.content, true ? css.background : null)}>
                     <strong className={css.noItems}>No items</strong>
                 </div>
             </div>

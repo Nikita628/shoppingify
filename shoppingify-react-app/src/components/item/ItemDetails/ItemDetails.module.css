@@ -1,0 +1,44 @@
+.itemDetails {
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+}
+
+.buttons {
+    text-align: center;
+}
+
+.image {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.section {
+    margin: 30px 0;
+}
+
+.label {
+    color: gray;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.backContainer {
+    margin-bottom: 20px;
+}
+
+.back {
+    background: no-repeat;
+    border: none;
+    color: orange;
+    font-weight: 600;
+}
+
+.note {
+    font-weight: 600;
+}

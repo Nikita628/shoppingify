@@ -9,10 +9,12 @@ import { BrowserRouter } from "react-router-dom";
 import configureAuthStore from "./store/auth";
 import configureCommonStore from "./store/common";
 import configureCategoryStore from "./store/category";
+import configureItemStore from "./store/item";
 
 configureAuthStore();
 configureCommonStore();
 configureCategoryStore();
+configureItemStore();
 
 ReactDOM.render(
   <React.StrictMode>

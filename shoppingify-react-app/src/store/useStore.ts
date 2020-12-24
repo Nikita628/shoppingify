@@ -3,11 +3,13 @@ import { useState, useEffect } from "react";
 import { IAuthState } from "./auth";
 import { ICategoryState } from "./category";
 import { ICommonState } from "./common";
+import { IItemState } from "./item";
 
 export interface IAppState {
     auth?: IAuthState;
     common?: ICommonState;
     category?: ICategoryState;
+    item?: IItemState;
 }
 
 export interface IAction<PayloadType = any> {
@@ -25,7 +27,7 @@ let appState: IAppState = {
 };
 
 export const useStore = (
-    listenToSliceUpdate?: "auth" | "category" | "common" | "all"
+    listenToSliceUpdate?: "auth" | "category" | "common" | "item" | "all"
 ): [IAppState, (action: IAction) => void] => {
     const setAppState = useState(appState)[1];
 

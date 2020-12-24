@@ -41,7 +41,7 @@
 .content {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     flex-grow: 1;
 }
 
@@ -82,4 +82,8 @@
     font-weight: 600;
     border-radius: 5px;
     padding: 5px 10px;
+}
+
+.background {
+    background: no-repeat bottom/65% url("http://clipartmag.com/images/online-shopping-png-clipart-16.png");
 }

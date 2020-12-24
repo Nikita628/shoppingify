@@ -5,12 +5,14 @@ import { Button } from "../../ui/Button/Button";
 import { Input } from "../../ui/Input/Input";
 import css from "./ItemCreation.module.css";
 import { actionTypes as commonAT } from "../../../store/common";
+import { actionTypes as itemAT } from "../../../store/item";
 import { SideDrawerMode } from "../../../common/data";
 import { Select } from "../../ui/Select/Select";
 import { CategoryCreation } from "../../category/CategoryCreation/CategoryCreation";
 import { Item } from "../../../models/item";
 import { User } from "../../../models/user";
 import itemApiClient from "../../../services/api-clients/ItemApiClient";
+import { IApiResponse } from "../../../models/common";
 
 export const ItemCreation = () => {
     const [appState, dispatch] = useStore("all");
@@ -21,6 +23,7 @@ export const ItemCreation = () => {
     const [note, setNote] = React.useState<string>(null);
     const [nameError, setNameError] = React.useState<string>(null);
     const [categoryError, setCategoryError] = React.useState<string>(null);
+    const [isCreating, setIsCreating] = React.useState(false);
 
     const switchToList = (): void => {
         dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ListCreation });
@@ -51,6 +54,8 @@ export const ItemCreation = () => {
 
         if (isError) return;
 
+        setIsCreating(true);
+
         const newItem = new Item({
             name: name,
             createdDate: new Date(),
@@ -64,10 +69,10 @@ export const ItemCreation = () => {
         });
 
         itemApiClient.create(newItem)
-            .then(res => {
-                console.log(res);
-                // TODO add new item into state
-                // switch to item details
+            .then((res: IApiResponse) => {
+                newItem.id = res.data.name;
+                dispatch({ type: itemAT.createItemSuccess, payload: newItem });
+                dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ItemDetails });
             })
             .catch(err => {
                 console.log(err);
@@ -133,7 +138,7 @@ export const ItemCreation = () => {
                 <div className={css.buttons}>
                     <Button type="white" onClick={switchToList}>cancel</Button>
                     {" "}
-                    <Button type="primary" onClick={createItem}>Save</Button>
+                    <Button disabled={!!categoryError || !!nameError || isCreating} type="primary" onClick={createItem}>Save</Button>
                 </div>
             </form>
 
