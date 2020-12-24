@@ -12,6 +12,7 @@ const initialState: IItemState = {
 export const actionTypes = {
     searchItemsSuccess: "Item/SearchItemsSuccess",
     createItemSuccess: "Item/CreateItemSuccess",
+    deleteItemSuccess: "Item/DeleteItemSuccess",
 };
 
 const configureStore = () => {
@@ -21,6 +22,9 @@ const configureStore = () => {
         // },
         [actionTypes.createItemSuccess]: (state: IAppState, action: IAction<Item>): IAppState => {
             return { item: { ...state.item, item: action.payload } }
+        },
+        [actionTypes.deleteItemSuccess]: (state: IAppState): IAppState => {
+            return { item: { ...state.item, item: null } }
         },
     };
 

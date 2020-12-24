@@ -5,6 +5,7 @@ import { useStore } from "../../../store/useStore";
 import css from "./ItemDetails.module.css";
 import { Button } from "../../ui/Button/Button";
 import { actionTypes as commonAT } from "../../../store/common";
+import { actionTypes as itemAT } from "../../../store/item";
 import { SideDrawerMode } from "../../../common/data";
 import { Modal } from "react-bootstrap";
 import itemApiClient from "../../../services/api-clients/ItemApiClient";
@@ -26,9 +27,9 @@ export const ItemDetails = () => {
         setIsDeleting(true);
         itemApiClient.delete(itemState.item.id)
             .then(res => {
-                console.log(res);
                 // TODO set item to null in state
                 // delete item from state (single and from categories)
+                dispatch({ type: itemAT.deleteItemSuccess });
                 switchToList();
             })
             .catch(err => {

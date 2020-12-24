@@ -17,7 +17,7 @@ export interface IAction<PayloadType = any> {
     payload?: PayloadType;
 }
 
-let appReducer: { [key: string]: (state: IAppState, action: IAction) => IAppState } = {}; // TODO array of these
+let appReducer: { [key: string]: (state: IAppState, action: IAction) => IAppState }[] = [];
 
 let listeners: ((state: IAppState) => void)[] = [];
 
@@ -32,14 +32,20 @@ export const useStore = (
     const setAppState = useState(appState)[1];
 
     const dispatch = (action: IAction) => {
-        // iterate over the array, if object contains the key, execute the function
-        const newStateSlice: any = appReducer[action.type](appState, action);
-        appState = { ...appState, ...newStateSlice };
+        const updatedSlices: string[] = [];
 
+        for (let i = 0; i < appReducer.length; i++) {
+            if(appReducer[i][action.type]) {
+                const newStateSlice: any = appReducer[i][action.type](appState, action);
+                appState = { ...appState, ...newStateSlice };
+                updatedSlices.push(Object.keys(newStateSlice)[0]);
+            }
+        }
+        
         let needToNotifyCurrentListener = false;
 
         if (listenToSliceUpdate === "all"
-            || (listenToSliceUpdate && newStateSlice[listenToSliceUpdate])) {
+            || (updatedSlices.some(u => u === listenToSliceUpdate))) {
             needToNotifyCurrentListener = true;
         }
 
@@ -72,5 +78,5 @@ export function initStore(
     initialState: IAppState
 ): void {
     appState = { ...appState, ...initialState };
-    appReducer = { ...appReducer, ...reducer };
+    appReducer.push(reducer);
 };
