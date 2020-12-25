@@ -4,12 +4,14 @@ import { IAuthState } from "./auth";
 import { ICategoryState } from "./category";
 import { ICommonState } from "./common";
 import { IItemState } from "./item";
+import { IListState } from "./list";
 
 export interface IAppState {
     auth?: IAuthState;
     common?: ICommonState;
     category?: ICategoryState;
     item?: IItemState;
+    list?: IListState;
 }
 
 export interface IAction<PayloadType = any> {

@@ -39,7 +39,7 @@ export const Auth = () => {
                     setError("");
                 }).catch((err) => {
                     setIsLoading(false);
-                    setError(err.response.data.error.message);
+                    setError(err);
                 });
         }
     };

@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
 import { constants } from "../../common/data";
-import { Item } from "../../models/item";
+import { Item, ItemSearchParam } from "../../models/item";
 import { IApiResponse } from "../../models/common";
 
 class ItemApiClient {
@@ -15,15 +15,15 @@ class ItemApiClient {
         return axios.delete<IApiResponse>(`${constants.apiUrl}/item/${itemId}.json`);
     }
 
-    // public search(param: CategorySearchParam): Promise<AxiosResponse<IApiResponse>> {
-    //     let urlParam = "";
+    public search(param: ItemSearchParam): Promise<AxiosResponse<IApiResponse>> {
+        let urlParam = "";
 
-    //     if (param.createdById) {
-    //         urlParam += `?orderBy="createdBy/id"&equalTo="${param.createdById}"`;
-    //     }
+        if (param.createdByUserId) {
+            urlParam += `?orderBy="createdBy/id"&equalTo="${param.createdByUserId}"`;
+        }
 
-    //     return axios.get<IApiResponse>(`${constants.apiUrl}/${this.endpoint}${urlParam}`);
-    // }
+        return axios.get<IApiResponse>(`${constants.apiUrl}/${this.endpoint}${urlParam}`);
+    }
 }
 
 export default new ItemApiClient();

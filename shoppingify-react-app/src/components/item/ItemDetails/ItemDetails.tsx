@@ -6,37 +6,47 @@ import css from "./ItemDetails.module.css";
 import { Button } from "../../ui/Button/Button";
 import { actionTypes as commonAT } from "../../../store/common";
 import { actionTypes as itemAT } from "../../../store/item";
+import { actionTypes as listAT } from "../../../store/list";
 import { SideDrawerMode } from "../../../common/data";
 import { Modal } from "react-bootstrap";
 import itemApiClient from "../../../services/api-clients/ItemApiClient";
+import { ListItem } from "../../../models/listItem";
 
 export const ItemDetails = () => {
     const [appState, dispatch] = useStore("item");
     const [isDeleteItemModalOpened, setIsDeleteItemModalOpened] = React.useState(false);
     const [isDeleting, setIsDeleting] = React.useState(false);
 
-    const itemState = appState.item;
+    const currentItem = appState.item.item;
 
-    if (!itemState.item) return null;
+    if (!currentItem) return null;
 
     const switchToList = (): void => {
         dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ListCreation });
-    }
+    };
 
     const deleteItem = (): void => {
         setIsDeleting(true);
-        itemApiClient.delete(itemState.item.id)
+        itemApiClient.delete(currentItem.id)
             .then(res => {
-                // TODO set item to null in state
-                // delete item from state (single and from categories)
-                dispatch({ type: itemAT.deleteItemSuccess });
+                dispatch({ type: itemAT.deleteItemSuccess, payload: currentItem });
                 switchToList();
             })
             .catch(err => {
                 setIsDeleting(false);
                 console.log(err);
             });
-    }
+    };
+
+    const addToList = (): void => {
+        const newListItem: ListItem = new ListItem({
+            item: currentItem,
+            amount: 0,
+            isChecked: false,
+        });
+        dispatch({ type: listAT.addItemToList, payload: newListItem });
+        switchToList();
+    };
 
     return (
         <div className={css.itemDetails}>
@@ -45,23 +55,23 @@ export const ItemDetails = () => {
                     <button onClick={switchToList} className={css.back}><Back /> back</button>
                 </div>
 
-                {itemState.item.imgUrl && <img className={css.image} src={itemState.item.imgUrl} alt="item" />}
+                {currentItem.imgUrl && <img className={css.image} src={currentItem.imgUrl} alt="item" />}
 
                 <div className={css.section}>
                     <div className={css.label}>name</div>
-                    <h3>{itemState.item.name}</h3>
+                    <h3>{currentItem.name}</h3>
                 </div>
 
                 <div className={css.section}>
                     <div className={css.label}>category</div>
-                    <h4>{itemState.item.category.name}</h4>
+                    <h4>{currentItem.category.name}</h4>
                 </div>
 
                 {
-                    itemState.item.note &&
+                    currentItem.note &&
                     <div className={css.section}>
                         <div className={css.label}>note</div>
-                        <p className={css.note}>{itemState.item.note}</p>
+                        <p className={css.note}>{currentItem.note}</p>
                     </div>
                 }
             </div>
@@ -69,7 +79,7 @@ export const ItemDetails = () => {
             <div className={css.buttons}>
                 <Button type="white" onClick={() => setIsDeleteItemModalOpened(true)}>delete</Button>
                 {" "}
-                <Button type="primary" onClick={() => { }}>Add to list</Button>
+                <Button type="primary" onClick={addToList}>Add to list</Button>
             </div>
 
             <Modal show={isDeleteItemModalOpened} onHide={() => setIsDeleteItemModalOpened(false)}>

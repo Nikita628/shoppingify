@@ -7,13 +7,13 @@ import { useStore } from "./store/useStore";
 import { actionTypes as authActionTypes } from "./store/auth";
 import { AuthLayout } from './components/auth/AuthLayout/AuthLayout';
 import authService from "./services/utils/AuthService";
-import categoryService from "./services/utils/CategoryService";
+import commonService from "./services/utils/CommonService";
 
 function App() {
   const [appState, dispatch] = useStore("auth");
 
   if (appState.auth.currentUserId && appState.auth.token) {
-    categoryService.getAllCategories(dispatch, appState.auth.currentUserId);
+    commonService.loadInitialData(dispatch, appState.auth.currentUserId);
     return (<Layout />);
   }
 

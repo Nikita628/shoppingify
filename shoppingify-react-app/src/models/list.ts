@@ -7,7 +7,6 @@ export class List {
     name: string;
     createdDate: Date;
     status: ListStatus;
-    
     createdBy: User;
     items: ListItem[];
 }

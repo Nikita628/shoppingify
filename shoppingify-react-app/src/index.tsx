@@ -10,11 +10,13 @@ import configureAuthStore from "./store/auth";
 import configureCommonStore from "./store/common";
 import configureCategoryStore from "./store/category";
 import configureItemStore from "./store/item";
+import configureListStore from "./store/list";
 
 configureAuthStore();
 configureCommonStore();
 configureCategoryStore();
 configureItemStore();
+configureListStore();
 
 ReactDOM.render(
   <React.StrictMode>

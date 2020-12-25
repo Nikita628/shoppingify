@@ -40,13 +40,13 @@
 
 .content {
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
     flex-grow: 1;
+    flex-flow: column nowrap;
 }
 
 .noItems {
     margin: 30px 0;
+    text-align: center;
 }
 
 .footer {
