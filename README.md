@@ -1,9 +1,8 @@
 # Shoppingify
 Create and manage your shopping list.
 
-**Tech stack:**\
-Frontend - React + Custom hook to emulate redux global store.\
-Backend - Firestore database.
+**Frontend** - React + Custom hook to emulate redux global store.\
+**Backend** - Firestore database.
 
     User story: When I select the items tab, I can see a list of items under different categories.
     User story: I can add a new item with name, category, note, and image.
