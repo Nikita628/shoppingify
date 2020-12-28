@@ -10,30 +10,34 @@ import authService from "./services/utils/AuthService";
 import commonService from "./services/utils/CommonService";
 
 function App() {
-  const [appState, dispatch] = useStore("auth");
+  const [appState, dispatch] = useStore("App", "auth");
+
+  React.useEffect(() => {
+    const loggedInFromStorage = authService.tryLoginFromLocalStorage();
+
+    if (!loggedInFromStorage) {
+      authService.clearAuthFromLocalStorage();
+      dispatch({ type: authActionTypes.loginFromLocalStorageFailed });
+    } else {
+      const token = localStorage.getItem(constants.tokenStorageKey);
+      const userId = localStorage.getItem(constants.currentUserIdStorageKey);
+      const email = localStorage.getItem(constants.currentUserEmailStorageKey);
+      commonService.loadInitialData(dispatch, userId);
+
+      dispatch({
+        type: authActionTypes.signinSuccess,
+        payload: { idToken: token, localId: userId, email: email }
+      });
+    }
+  }, [appState.auth.currentUserId, appState.auth.token]);
 
   if (appState.auth.currentUserId && appState.auth.token) {
-    commonService.loadInitialData(dispatch, appState.auth.currentUserId);
     return (<Layout />);
-  }
-
-  const loggedInFromStorage = authService.tryLoginFromLocalStorage();
-
-  if (!loggedInFromStorage) {
-    authService.clearAuthFromLocalStorage();
+  } else if (!appState.auth.currentUserId && !appState.auth.token && appState.auth.failedLoginFromLocalStorage) {
     return (<AuthLayout />);
+  } else {
+    return null;
   }
-
-  const token = localStorage.getItem(constants.tokenStorageKey);
-  const userId = localStorage.getItem(constants.currentUserIdStorageKey);
-  const email = localStorage.getItem(constants.currentUserEmailStorageKey);
-
-  dispatch({
-    type: authActionTypes.signinSuccess,
-    payload: { idToken: token, localId: userId, email: email }
-  });
-
-  return null;
 }
 
 export default App;

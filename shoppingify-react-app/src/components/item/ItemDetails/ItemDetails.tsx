@@ -13,7 +13,7 @@ import itemApiClient from "../../../services/api-clients/ItemApiClient";
 import { ListItem } from "../../../models/listItem";
 
 export const ItemDetails = () => {
-    const [appState, dispatch] = useStore("item");
+    const [appState, dispatch] = useStore("ItemDetails", "item");
     const [isDeleteItemModalOpened, setIsDeleteItemModalOpened] = React.useState(false);
     const [isDeleting, setIsDeleting] = React.useState(false);
 

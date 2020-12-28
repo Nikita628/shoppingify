@@ -7,24 +7,31 @@ import { Toggle } from "../../ui/Toggle/Toggle";
 import css from "./List.module.css";
 import bottle from "../../../assets/bottle.png";
 import { actionTypes as commonAT } from "../../../store/common";
-import { SideDrawerMode } from "../../../common/data";
+import { actionTypes as listAT } from "../../../store/list";
+import { ListStatus, SideDrawerMode } from "../../../common/data";
 import { coClass } from "../../../common/functions";
 import { List as ListModel } from "../../../models/list";
 import { ItemForAddition } from "../ItemForAddition/ItemForAddition";
 import { ItemForChecking } from "../ItemForChecking/ItemForChecking";
+import { User } from "../../../models/user";
+import listApiClient from "../../../services/api-clients/ListApiClient";
+import { IApiResponse } from "../../../models/common";
 
 export interface ListProps {
 
 }
 
 export const List = (props: ListProps) => {
-    const [appState, dispatch] = useStore("all");
+    const [appState, dispatch] = useStore("List", "all");
+    const [listName, setListName] = React.useState<string>(null);
+    const [isSaving, setIsSaving] = React.useState(false);
 
     const sideDrawerMode = appState.common.sidedrawerMode;
     const activeList: ListModel = appState.list.activeList;
     const itemsGroupedByCategoryName = appState.list.categoryNameToActiveListItems;
     const categoryNames = Object.keys(itemsGroupedByCategoryName).sort();
     const isListHasItems = categoryNames.length;
+    const isListSavedInDB = activeList && activeList.id;
 
     const switchToItemCreation = (): void => {
         dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ItemCreation });
@@ -33,8 +40,8 @@ export const List = (props: ListProps) => {
     const renderItemsInCategory = (categoryName: string): React.ReactNode => {
         return itemsGroupedByCategoryName[categoryName].map(i =>
             sideDrawerMode === SideDrawerMode.ListCreation
-                ? <ItemForAddition item={i} />
-                : <ItemForChecking item={i} />
+                ? <ItemForAddition key={i.item.id} item={i} />
+                : <ItemForChecking key={i.item.id} item={i} />
         );
     };
 
@@ -43,11 +50,57 @@ export const List = (props: ListProps) => {
             dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ListCompletion });
         } else {
             dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ListCreation });
-        } 
+        }
+    };
+
+    const cancelActiveList = (): void => {
+
+    };
+
+    const completeActiveList = (): void => {
+
     };
 
     const saveActiveList = (): void => {
-        // TODO create or update
+        setIsSaving(true);
+
+        if (isListSavedInDB) {
+            const updatedList = new ListModel({
+                ...activeList,
+                items: appState.list.activeListItems,
+            });
+
+            listApiClient.update(updatedList)
+                .then((res: IApiResponse) => {
+                    setIsSaving(false);
+                })
+                .catch(err => {
+                    setIsSaving(false);
+                    console.log(err);
+                });
+        } else {
+            const newList = new ListModel({
+                name: listName,
+                createdDate: new Date(),
+                createdBy: new User({
+                    id: appState.auth.currentUserId,
+                    email: appState.auth.currentUserEmail
+                }),
+                status: ListStatus.Active,
+                items: appState.list.activeListItems,
+            });
+
+            listApiClient.create(newList)
+                .then((res: IApiResponse) => {
+                    setIsSaving(false);
+                    newList.id = res.data.name;
+                    dispatch({ type: listAT.createListSuccess, payload: newList });
+                })
+                .catch(err => {
+                    setIsSaving(false);
+                    console.log(err);
+                });
+        }
     };
 
     return (
@@ -63,7 +116,7 @@ export const List = (props: ListProps) => {
                 </div>
 
                 <div className={css.title}>
-                    {activeList && activeList.id ? activeList.name : <h3>Shopping List</h3>}
+                    <h3>{activeList && isListSavedInDB ? activeList.name : "Shopping List"}</h3>
                     <Toggle isOn={sideDrawerMode === SideDrawerMode.ListCompletion} onToggle={toggleListMode} />
                 </div>
 
@@ -71,7 +124,7 @@ export const List = (props: ListProps) => {
                     {
                         isListHasItems
                             ? categoryNames.map(cn =>
-                                <div className={css.itemInCategory}>
+                                <div key={cn} className={css.itemInCategory}>
                                     <h5 className={css.categoryName}>{cn}</h5>
                                     {renderItemsInCategory(cn)}
                                 </div>
@@ -81,17 +134,41 @@ export const List = (props: ListProps) => {
                 </div>
             </div>
 
-            {/* render save or complete\cancel (depends on list mode) */}
-            <div className={css.footer}>
-                {
-                    activeList && activeList.id
-                        ? <Button type="primary" onClick={saveActiveList}>Save</Button>
-                        : <form className={css.saveForm}>
-                            <Input type="text" styleType="secondary" placeholder="Enter a name" />
-                            <Button type="secondary" onClick={saveActiveList}>Save</Button>
-                        </form>
-                }
-            </div>
+            {
+                sideDrawerMode === SideDrawerMode.ListCreation &&
+                <div className={css.footer}>
+                    {
+                        activeList && isListSavedInDB
+                            ? <Button disabled={isSaving} type="primary" onClick={saveActiveList}>Save</Button>
+                            : <form className={css.saveForm}>
+                                <Input
+                                    value={listName}
+                                    type="text"
+                                    styleType={!listName || !isListHasItems ? "secondary" : "primary"}
+                                    placeholder="Enter a name"
+                                    onChange={(e) => setListName(e.target.value)}
+                                />
+                                <Button
+                                    disabled={!listName || !isListHasItems || isSaving}
+                                    type={!listName || !isListHasItems ? "secondary" : "primary"}
+                                    onClick={saveActiveList}
+                                >
+                                    Save
+                                </Button>
+                            </form>
+                    }
+                </div>
+            }
+
+            {
+                sideDrawerMode === SideDrawerMode.ListCompletion &&
+                <div className={css.footer}>
+                    <Button type="white" onClick={cancelActiveList}>cancel</Button>
+                    {" "}
+                    <Button type="primary" onClick={completeActiveList}>Complete</Button>
+                </div>
+            }
+
         </div>
     );
 }

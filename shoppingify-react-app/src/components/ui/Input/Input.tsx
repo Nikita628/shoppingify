@@ -5,6 +5,7 @@ import css from "./Input.module.css";
 export interface InputProps {
     type: string;
     styleType: "primary" | "secondary" | "error";
+    value?: string;
     style?: React.CSSProperties;
     className?: string;
     placeholder?: string;
@@ -26,6 +27,7 @@ export const Input = (props: InputProps) => {
 
     return (
         <input
+            value={props.value}
             id={props.id}
             ref={inputRef}
             style={props.style}

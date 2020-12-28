@@ -10,7 +10,7 @@ import { SideDrawerMode } from "../../../common/data";
 import { coClass } from "../../../common/functions";
 
 export const Items = () => {
-    const [appState, dispatch] = useStore("item");
+    const [appState, dispatch] = useStore("Items", "item");
 
     const itemsGroupedByCategoryName = appState.item.categoryNameToItems;
     const categoryNames = Object.keys(itemsGroupedByCategoryName).sort();
@@ -39,7 +39,7 @@ export const Items = () => {
         <div className={css.items}>
             {
                 categoryNames.map(cn =>
-                    <div className={css.category}>
+                    <div key={cn} className={css.category}>
                         <h4 className={css.categoryName}>{cn}</h4>
                         <div className={css.itemsInCategory}>
                             {renderItemsInCategory(cn)}

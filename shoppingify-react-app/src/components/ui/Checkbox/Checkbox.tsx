@@ -22,6 +22,7 @@ export const Checkbox = (props: CheckboxProps) => {
                 readOnly={false}
                 type="checkbox"
                 checked={props.isChecked}
+                onChange={() => {}}
             />
 
             <span className={css.checkmark}></span>

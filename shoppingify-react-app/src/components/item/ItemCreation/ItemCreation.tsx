@@ -15,7 +15,7 @@ import itemApiClient from "../../../services/api-clients/ItemApiClient";
 import { IApiResponse } from "../../../models/common";
 
 export const ItemCreation = () => {
-    const [appState, dispatch] = useStore("all");
+    const [appState, dispatch] = useStore("ItemCreation", "all");
     const [isAddCategoryModalOpened, setIsAddCategoryModalOpened] = React.useState(false);
     const [name, setName] = React.useState<string>(null);
     const [categoryId, setCategoryId] = React.useState<string>(null);

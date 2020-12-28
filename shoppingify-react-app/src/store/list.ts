@@ -23,6 +23,8 @@ export const actionTypes = {
     decreaseItemCount: "List/DecreseItemCount",
     checkItem: "List/checkItem",
     uncheckItem: "List/uncheckItem",
+    createListSuccess: "List/CreateListSuccess",
+    getActiveListSuccess: "List/GetActiveListSuccess",
 };
 
 const configureStore = () => {
@@ -117,6 +119,27 @@ const configureStore = () => {
             return {
                 list: {
                     ...state.list,
+                    activeListItems: itemsInActiveList,
+                    categoryNameToActiveListItems: categoryNameToActiveListItems,
+                }
+            };
+        },
+        [actionTypes.createListSuccess]: (state: IAppState, action: IAction<List>): IAppState => {
+            return {
+                list: {
+                    ...state.list,
+                    activeList: action.payload,
+                }
+            };
+        },
+        [actionTypes.getActiveListSuccess]: (state: IAppState, action: IAction<List>): IAppState => {
+            const itemsInActiveList = action.payload.items;
+            const categoryNameToActiveListItems = indexCategoryNameToActiveListItems(itemsInActiveList);
+
+            return {
+                list: {
+                    ...state.list,
+                    activeList: action.payload,
                     activeListItems: itemsInActiveList,
                     categoryNameToActiveListItems: categoryNameToActiveListItems,
                 }

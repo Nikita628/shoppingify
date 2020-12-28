@@ -9,7 +9,7 @@ import { List } from "../../list/List/List";
 import css from "./Sidedrawer.module.css";
 
 export const Sidedrawer = () => {
-    const appState = useStore("common")[0];
+    const appState = useStore("SideDrawer", "common")[0];
     const commonState = appState.common;
 
     return (

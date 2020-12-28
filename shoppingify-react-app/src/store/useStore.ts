@@ -21,7 +21,7 @@ export interface IAction<PayloadType = any> {
 
 let appReducer: { [key: string]: (state: IAppState, action: IAction) => IAppState }[] = [];
 
-let listeners: ((state: IAppState) => void)[] = [];
+let listeners: { componentId: string, func: (state: IAppState) => void }[] = [];
 
 let appState: IAppState = {
     auth: null,
@@ -29,6 +29,7 @@ let appState: IAppState = {
 };
 
 export const useStore = (
+    componentId: string,
     listenToSliceUpdate?: "auth" | "category" | "common" | "item" | "all"
 ): [IAppState, (action: IAction) => void] => {
     const setAppState = useState(appState)[1];
@@ -37,13 +38,13 @@ export const useStore = (
         const updatedSlices: string[] = [];
 
         for (let i = 0; i < appReducer.length; i++) {
-            if(appReducer[i][action.type]) {
+            if (appReducer[i][action.type]) {
                 const newStateSlice: any = appReducer[i][action.type](appState, action);
                 appState = { ...appState, ...newStateSlice };
                 updatedSlices.push(Object.keys(newStateSlice)[0]);
             }
         }
-        
+
         let needToNotifyCurrentListener = false;
 
         if (listenToSliceUpdate === "all"
@@ -52,25 +53,27 @@ export const useStore = (
         }
 
         for (const l of listeners) {
-            if (l === setAppState && !needToNotifyCurrentListener) {
-                continue;
+            if (l.componentId === componentId) {
+                if (needToNotifyCurrentListener) {
+                    l.func(appState);
+                }
+            } else {
+                l.func(appState);
             }
-
-            l(appState);
         }
     };
 
     useEffect(() => {
         if (listenToSliceUpdate) {
-            listeners.push(setAppState);
+            listeners.push({ componentId: componentId, func: setAppState });
         }
 
         return () => {
             if (listenToSliceUpdate) {
-                listeners = listeners.filter(l => l !== setAppState);
+                listeners = listeners.filter(l => l.componentId !== componentId);
             }
         };
-    }, [setAppState, listenToSliceUpdate]);
+    }, []);
 
     return [appState, dispatch];
 };

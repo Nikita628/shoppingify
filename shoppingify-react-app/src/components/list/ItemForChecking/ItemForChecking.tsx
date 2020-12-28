@@ -13,7 +13,7 @@ export interface ItemForCheckingProps {
 }
 
 export const ItemForChecking = (props: ItemForCheckingProps) => {
-    const [appState, dispatch] = useStore();
+    const [appState, dispatch] = useStore("ItemForChecking");
 
     const item = props.item;
 

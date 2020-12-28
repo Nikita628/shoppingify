@@ -12,10 +12,9 @@ import css from "./Sidemenu.module.css";
 import authService from "../../../services/utils/AuthService";
 import { useStore } from "../../../store/useStore";
 import { actionTypes as commonAT } from "../../../store/common";
-import { SideDrawerMode } from "../../../common/data";
 
 export const Sidemenu = () => {
-    const [appState, dispatch] = useStore("all");
+    const [appState, dispatch] = useStore("SideMenu", "all");
     const commonState = appState.common;
 
     const toggleSidedrawer = () => {

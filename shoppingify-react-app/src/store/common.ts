@@ -7,7 +7,7 @@ export interface ICommonState {
 }
 
 const initialState: ICommonState = {
-    sidedrawerMode: null,
+    sidedrawerMode: SideDrawerMode.ListCreation,
     isSideDrawerOpened: false,
 };
 

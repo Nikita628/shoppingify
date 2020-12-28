@@ -19,7 +19,7 @@ export interface ICategoryCreationProps {
 }
 
 export const CategoryCreation = (props: ICategoryCreationProps) => {
-    const [appState, dispatch] = useStore("all");
+    const [appState, dispatch] = useStore("CategoryCreation", "all");
     const [categoryName, setCategoryName] = React.useState(null);
     const [isCreatingCategory, setIsCreatingCategory] = React.useState(false);
     const [categoryError, setCategoryError] = React.useState(null);

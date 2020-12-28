@@ -12,4 +12,15 @@ export class ListItem {
             this.item = item.item;
         }
     }
+
+    static toModel(item: any): ListItem {
+        if (!item) return null;
+
+        const newItem = new ListItem();
+        newItem.amount = item.amount;
+        newItem.isChecked = item.isChecked;
+        newItem.item = item.item ? Item.toModel(item.item) : null;
+
+        return newItem;
+    }
 }
