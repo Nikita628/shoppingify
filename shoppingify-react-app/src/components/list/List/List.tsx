@@ -11,6 +11,7 @@ import { SideDrawerMode } from "../../../common/data";
 import { coClass } from "../../../common/functions";
 import { List as ListModel } from "../../../models/list";
 import { ItemForAddition } from "../ItemForAddition/ItemForAddition";
+import { ItemForChecking } from "../ItemForChecking/ItemForChecking";
 
 export interface ListProps {
 
@@ -29,13 +30,20 @@ export const List = (props: ListProps) => {
         dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ItemCreation });
     };
 
-    // TODO render itemForAdding or itemForChecking (depends on list mode)
     const renderItemsInCategory = (categoryName: string): React.ReactNode => {
         return itemsGroupedByCategoryName[categoryName].map(i =>
             sideDrawerMode === SideDrawerMode.ListCreation
                 ? <ItemForAddition item={i} />
-                : <div key={i.item.id}>{i.item.name}</div>
+                : <ItemForChecking item={i} />
         );
+    };
+
+    const toggleListMode = (isOn: boolean): void => {
+        if (isOn) {
+            dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ListCompletion });
+        } else {
+            dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ListCreation });
+        } 
     };
 
     const saveActiveList = (): void => {
@@ -56,7 +64,7 @@ export const List = (props: ListProps) => {
 
                 <div className={css.title}>
                     {activeList && activeList.id ? activeList.name : <h3>Shopping List</h3>}
-                    <Toggle isOn={false} onToggle={() => { }} />
+                    <Toggle isOn={sideDrawerMode === SideDrawerMode.ListCompletion} onToggle={toggleListMode} />
                 </div>
 
                 <div className={coClass(css.content, !isListHasItems ? css.background : null)}>

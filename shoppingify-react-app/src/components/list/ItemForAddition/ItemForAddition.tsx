@@ -14,6 +14,8 @@ export interface ItemForAdditionProps {
     item: ListItem;
 }
 
+const buttonStyle = { color: "orange", margin: "0 5px 0 5px" };
+
 export const ItemForAddition = (props: ItemForAdditionProps) => {
     const [appState, dispatch] = useStore();
     const [isEditing, setIsEditing] = React.useState(false);
@@ -53,7 +55,7 @@ export const ItemForAddition = (props: ItemForAdditionProps) => {
                 {
                     isEditing &&
                     <div onClick={decreaseAmount}>
-                        <Remove style={{ color: "orange" }} />
+                        <Remove style={buttonStyle} />
                     </div>
                 }
 
@@ -62,7 +64,7 @@ export const ItemForAddition = (props: ItemForAdditionProps) => {
                 {
                     isEditing &&
                     <div onClick={increaseAmount}>
-                        <Add style={{ color: "orange" }} />
+                        <Add style={buttonStyle} />
                     </div>
                 }
             </div>

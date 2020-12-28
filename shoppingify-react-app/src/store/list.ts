@@ -1,6 +1,8 @@
 import { List } from "../models/list";
 import { ListItem } from "../models/listItem";
 import { IAction, IAppState, initStore } from "./useStore";
+import { actionTypes as itemAT } from "./item";
+import { Item } from "../models/item";
 
 export interface IListState {
     activeList: List;
@@ -98,6 +100,18 @@ const configureStore = () => {
                 i.item.id === action.payload ? { ...i, isChecked: false } : i
             );
 
+            const categoryNameToActiveListItems = indexCategoryNameToActiveListItems(itemsInActiveList);
+
+            return {
+                list: {
+                    ...state.list,
+                    activeListItems: itemsInActiveList,
+                    categoryNameToActiveListItems: categoryNameToActiveListItems,
+                }
+            };
+        },
+        [itemAT.deleteItemSuccess]: (state: IAppState, action: IAction<Item>): IAppState => {
+            const itemsInActiveList = state.list.activeListItems.filter(i => i.item.id !== action.payload.id);
             const categoryNameToActiveListItems = indexCategoryNameToActiveListItems(itemsInActiveList);
 
             return {
