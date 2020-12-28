@@ -7,12 +7,14 @@ import { Item } from "../../../models/item";
 import { actionTypes as itemAT } from "../../../store/item";
 import { actionTypes as commonAT } from "../../../store/common";
 import { SideDrawerMode } from "../../../common/data";
+import { coClass } from "../../../common/functions";
 
 export const Items = () => {
     const [appState, dispatch] = useStore("item");
 
     const itemsGroupedByCategoryName = appState.item.categoryNameToItems;
-    const categoryNames = Object.keys(itemsGroupedByCategoryName);
+    const categoryNames = Object.keys(itemsGroupedByCategoryName).sort();
+    const currentItem = appState.item.item;
 
     const openItemDetails = (item: Item): void => {
         dispatch({ type: itemAT.setItem, payload: item });
@@ -22,7 +24,11 @@ export const Items = () => {
 
     const renderItemsInCategory = (categoryName: string): React.ReactNode => {
         return itemsGroupedByCategoryName[categoryName].map(i =>
-            <div onClick={() => openItemDetails(i)} className={css.categoryItem}>
+            <div
+                onClick={() => openItemDetails(i)}
+                className={coClass(css.categoryItem, currentItem && currentItem.id === i.id ? css.selectedItem : null)}
+                key={i.id}
+            >
                 {i.name}
                 <Add style={{ marginLeft: "10px" }} />
             </div>

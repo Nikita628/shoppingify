@@ -17,6 +17,7 @@ export const ItemDetails = () => {
     const [isDeleteItemModalOpened, setIsDeleteItemModalOpened] = React.useState(false);
     const [isDeleting, setIsDeleting] = React.useState(false);
 
+    const itemsInActiveList = appState.list.activeListItems;
     const currentItem = appState.item.item;
 
     if (!currentItem) return null;
@@ -39,12 +40,19 @@ export const ItemDetails = () => {
     };
 
     const addToList = (): void => {
-        const newListItem: ListItem = new ListItem({
-            item: currentItem,
-            amount: 0,
-            isChecked: false,
-        });
-        dispatch({ type: listAT.addItemToList, payload: newListItem });
+        if (itemsInActiveList.some(i => i.item.id === currentItem.id)) {
+            dispatch({ type: listAT.increaseItemCount, payload: currentItem.id });
+        } else {
+            const newListItem: ListItem = new ListItem({
+                item: currentItem,
+                amount: 1,
+                isChecked: false,
+            });
+
+            dispatch({ type: listAT.addItemToList, payload: newListItem });
+        }
+
+        dispatch({ type: itemAT.setItem, payload: null });
         switchToList();
     };
 

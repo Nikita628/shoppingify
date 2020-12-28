@@ -10,6 +10,7 @@ import { actionTypes as commonAT } from "../../../store/common";
 import { SideDrawerMode } from "../../../common/data";
 import { coClass } from "../../../common/functions";
 import { List as ListModel } from "../../../models/list";
+import { ItemForAddition } from "../ItemForAddition/ItemForAddition";
 
 export interface ListProps {
 
@@ -18,9 +19,10 @@ export interface ListProps {
 export const List = (props: ListProps) => {
     const [appState, dispatch] = useStore("all");
 
+    const sideDrawerMode = appState.common.sidedrawerMode;
     const activeList: ListModel = appState.list.activeList;
-    const itemsGroupedByCategory = appState.list.categoryNameToActiveListItems;
-    const categoryNames = Object.keys(itemsGroupedByCategory);
+    const itemsGroupedByCategoryName = appState.list.categoryNameToActiveListItems;
+    const categoryNames = Object.keys(itemsGroupedByCategoryName).sort();
     const isListHasItems = categoryNames.length;
 
     const switchToItemCreation = (): void => {
@@ -29,8 +31,10 @@ export const List = (props: ListProps) => {
 
     // TODO render itemForAdding or itemForChecking (depends on list mode)
     const renderItemsInCategory = (categoryName: string): React.ReactNode => {
-        return itemsGroupedByCategory[categoryName].map(i =>
-            <div key={i.item.id}>{i.item.name}</div>
+        return itemsGroupedByCategoryName[categoryName].map(i =>
+            sideDrawerMode === SideDrawerMode.ListCreation
+                ? <ItemForAddition item={i} />
+                : <div key={i.item.id}>{i.item.name}</div>
         );
     };
 
@@ -58,7 +62,12 @@ export const List = (props: ListProps) => {
                 <div className={coClass(css.content, !isListHasItems ? css.background : null)}>
                     {
                         isListHasItems
-                            ? categoryNames.map(ic => renderItemsInCategory(ic))
+                            ? categoryNames.map(cn =>
+                                <div className={css.itemInCategory}>
+                                    <h5 className={css.categoryName}>{cn}</h5>
+                                    {renderItemsInCategory(cn)}
+                                </div>
+                            )
                             : <strong className={css.noItems}>No items</strong>
                     }
                 </div>

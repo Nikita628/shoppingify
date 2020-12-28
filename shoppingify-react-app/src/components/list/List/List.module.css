@@ -87,3 +87,12 @@
 .background {
     background: no-repeat bottom/65% url("http://clipartmag.com/images/online-shopping-png-clipart-16.png");
 }
+
+.categoryName {
+    color: gray;
+    margin-bottom: 10px;
+}
+
+.itemInCategory {
+    margin-bottom: 30px;
+}

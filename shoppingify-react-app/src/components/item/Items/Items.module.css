@@ -24,4 +24,9 @@
     align-items: center;
     user-select: none;
     cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.selectedItem {
+    border: 1px solid orange;
 }

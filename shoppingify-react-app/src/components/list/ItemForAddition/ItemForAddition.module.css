@@ -1,0 +1,36 @@
+.itemForAddition {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.header {
+    color: #333;
+    margin: 0;
+}
+
+.content {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+.deleteContainer {
+    padding: 5px;
+    background: orange;
+    border-radius: 10px;
+    color: white;
+    margin-right: 5px;
+}
+
+.editing {
+    background-color: white;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.content svg {
+    cursor: pointer;
+}
