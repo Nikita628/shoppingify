@@ -25,6 +25,7 @@ export const actionTypes = {
     uncheckItem: "List/uncheckItem",
     createListSuccess: "List/CreateListSuccess",
     getActiveListSuccess: "List/GetActiveListSuccess",
+    clearActiveList: "List/ClearActiveList",
 };
 
 const configureStore = () => {
@@ -142,6 +143,16 @@ const configureStore = () => {
                     activeList: action.payload,
                     activeListItems: itemsInActiveList,
                     categoryNameToActiveListItems: categoryNameToActiveListItems,
+                }
+            };
+        },
+        [actionTypes.clearActiveList]: (state: IAppState): IAppState => {
+            return {
+                list: {
+                    ...state.list,
+                    activeList: null,
+                    activeListItems: [],
+                    categoryNameToActiveListItems: {},
                 }
             };
         },

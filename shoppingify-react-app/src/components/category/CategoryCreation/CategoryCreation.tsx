@@ -2,7 +2,7 @@ import React from "react";
 import { Modal } from "react-bootstrap";
 
 import { Category } from "../../../models/category";
-import { IError } from "../../../models/common";
+import { IApiResponse, IError } from "../../../models/common";
 import { User } from "../../../models/user";
 import { actionTypes as categoryAT } from "../../../store/category";
 import categoryApiClient from "../../../services/api-clients/CategoryApiClient";
@@ -57,7 +57,8 @@ export const CategoryCreation = (props: ICategoryCreationProps) => {
             });
 
             categoryApiClient.create(newCategory)
-                .then(() => {
+                .then((res: IApiResponse) => {
+                    newCategory.id = res.data.name;
                     dispatch({
                         type: categoryAT.createCategorySuccess,
                         payload: newCategory,

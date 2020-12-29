@@ -23,6 +23,7 @@ export const ItemDetails = () => {
     if (!currentItem) return null;
 
     const switchToList = (): void => {
+        dispatch({ type: itemAT.setItem, payload: null });
         dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ListCreation });
     };
 

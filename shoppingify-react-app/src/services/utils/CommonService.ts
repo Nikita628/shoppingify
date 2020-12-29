@@ -29,7 +29,10 @@ class CommonService {
 
         dispatch({ type: categoryAT.searchCategoriesSuccess, payload: categories });
         dispatch({ type: itemAT.searchItemsSuccess, payload: items });
-        dispatch({ type: listAT.getActiveListSuccess, payload: activeList });
+
+        if (activeList) {
+            dispatch({ type: listAT.getActiveListSuccess, payload: activeList });
+        }
     }
 }
 

@@ -17,13 +17,9 @@ import { User } from "../../../models/user";
 import listApiClient from "../../../services/api-clients/ListApiClient";
 import { IApiResponse } from "../../../models/common";
 
-export interface ListProps {
-
-}
-
-export const List = (props: ListProps) => {
+export const List = () => {
     const [appState, dispatch] = useStore("List", "all");
-    const [listName, setListName] = React.useState<string>(null);
+    const [listName, setListName] = React.useState<string>("");
     const [isSaving, setIsSaving] = React.useState(false);
 
     const sideDrawerMode = appState.common.sidedrawerMode;
@@ -37,28 +33,67 @@ export const List = (props: ListProps) => {
         dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ItemCreation });
     };
 
-    const renderItemsInCategory = (categoryName: string): React.ReactNode => {
-        return itemsGroupedByCategoryName[categoryName].map(i =>
-            sideDrawerMode === SideDrawerMode.ListCreation
-                ? <ItemForAddition key={i.item.id} item={i} />
-                : <ItemForChecking key={i.item.id} item={i} />
-        );
-    };
-
     const toggleListMode = (isOn: boolean): void => {
-        if (isOn) {
+        if (isOn && isListHasItems) {
             dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ListCompletion });
         } else {
             dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ListCreation });
         }
     };
 
-    const cancelActiveList = (): void => {
+    const saveListWithStatus = (status: ListStatus): void => {
+        setIsSaving(true);
 
+        if (isListSavedInDB) {
+            const updatedList = new ListModel({
+                ...activeList,
+                items: appState.list.activeListItems,
+                status: status,
+            });
+
+            listApiClient.update(updatedList)
+                .then((res: IApiResponse) => {
+                    setIsSaving(false);
+                    setListName("");
+                    dispatch({ type: listAT.clearActiveList });
+                    dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ListCreation });
+                })
+                .catch(err => {
+                    setIsSaving(false);
+                    console.log(err);
+                });
+        } else {
+            const newList = new ListModel({
+                name: "Shopping List",
+                createdDate: new Date(),
+                createdBy: new User({
+                    id: appState.auth.currentUserId,
+                    email: appState.auth.currentUserEmail
+                }),
+                status: status,
+                items: appState.list.activeListItems,
+            });
+
+            listApiClient.create(newList)
+                .then((res: IApiResponse) => {
+                    setIsSaving(false);
+                    setListName("");
+                    dispatch({ type: listAT.clearActiveList });
+                    dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ListCreation });
+                })
+                .catch(err => {
+                    setIsSaving(false);
+                    console.log(err);
+                });
+        }
     };
 
     const completeActiveList = (): void => {
+        saveListWithStatus(ListStatus.Completed);
+    };
 
+    const cancelActiveList = (): void => {
+        saveListWithStatus(ListStatus.Canceled);
     };
 
     const saveActiveList = (): void => {
@@ -73,6 +108,7 @@ export const List = (props: ListProps) => {
             listApiClient.update(updatedList)
                 .then((res: IApiResponse) => {
                     setIsSaving(false);
+                    setListName("");
                 })
                 .catch(err => {
                     setIsSaving(false);
@@ -93,6 +129,7 @@ export const List = (props: ListProps) => {
             listApiClient.create(newList)
                 .then((res: IApiResponse) => {
                     setIsSaving(false);
+                    setListName("");
                     newList.id = res.data.name;
                     dispatch({ type: listAT.createListSuccess, payload: newList });
                 })
@@ -101,6 +138,14 @@ export const List = (props: ListProps) => {
                     console.log(err);
                 });
         }
+    };
+
+    const renderItemsInCategory = (categoryName: string): React.ReactNode => {
+        return itemsGroupedByCategoryName[categoryName].map(i =>
+            sideDrawerMode === SideDrawerMode.ListCreation
+                ? <ItemForAddition key={i.item.id} item={i} />
+                : <ItemForChecking key={i.item.id} item={i} />
+        );
     };
 
     return (
@@ -163,9 +208,9 @@ export const List = (props: ListProps) => {
             {
                 sideDrawerMode === SideDrawerMode.ListCompletion &&
                 <div className={css.footer}>
-                    <Button type="white" onClick={cancelActiveList}>cancel</Button>
+                    <Button type="white" onClick={cancelActiveList} disabled={isSaving}>cancel</Button>
                     {" "}
-                    <Button type="primary" onClick={completeActiveList}>Complete</Button>
+                    <Button type="primary" onClick={completeActiveList} disabled={isSaving}>Complete</Button>
                 </div>
             }
 

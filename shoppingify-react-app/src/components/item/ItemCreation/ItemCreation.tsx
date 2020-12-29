@@ -71,7 +71,6 @@ export const ItemCreation = () => {
         itemApiClient.create(newItem)
             .then((res: IApiResponse) => {
                 newItem.id = res.data.name;
-                // TODO set item in state (for categories)
                 dispatch({ type: itemAT.createItemSuccess, payload: newItem });
                 dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ItemDetails });
             })
