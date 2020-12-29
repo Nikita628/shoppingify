@@ -12,12 +12,14 @@ export const Layout = () => {
     return (
         <div className={css.layout}>
             <Sidemenu />
-            <Switch>
-                <Route path="/items" exact component={Items} />
-                <Route path="/history" exact component={History} />
-                <Route path="/statistics" exact component={Statistics} />
-                <Route path="/" render={() => <Redirect to="/items" />} />
-            </Switch>
+            <div className={css.content}>
+                <Switch>
+                    <Route path="/items" exact component={Items} />
+                    <Route path="/history" exact component={History} />
+                    <Route path="/statistics" exact component={Statistics} />
+                    <Route path="/" render={() => <Redirect to="/items" />} />
+                </Switch>
+            </div>
             <Sidedrawer />
         </div>
     );

@@ -79,6 +79,7 @@ export const List = () => {
                 .then((res: IApiResponse) => {
                     setIsSaving(false);
                     setListName("");
+                    newList.id = res.data.name;
                     dispatch({ type: listAT.clearActiveList });
                     dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ListCreation });
                     dispatch({ type: listAT.addListToLists, payload: newList });

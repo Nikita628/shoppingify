@@ -1,6 +1,6 @@
 .items {
     width: 100%;
-    padding: 30px;
+    padding: 20px;
 }
 
 .category {
@@ -29,4 +29,8 @@
 
 .selectedItem {
     border: 1px solid orange;
+}
+
+.header {
+    margin-bottom: 40px;
 }

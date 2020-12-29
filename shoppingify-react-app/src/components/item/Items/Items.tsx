@@ -37,6 +37,7 @@ export const Items = () => {
 
     return (
         <div className={css.items}>
+            <h2 className={css.header}>Your items</h2>
             {
                 categoryNames.map(cn =>
                     <div key={cn} className={css.category}>

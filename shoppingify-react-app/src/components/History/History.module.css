@@ -1,0 +1,68 @@
+.header {
+    margin-bottom: 40px;
+}
+
+.history {
+    padding: 20px;
+}
+
+.content {
+    width: 100%;
+}
+
+.list {
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 3px #ddd;
+    margin: 20px 0 20px 0;
+    user-select: none;
+    cursor: pointer;
+}
+
+.listInfoContainer {
+    display: inline-block;
+}
+
+.listName {
+    font-size: 20px;
+    font-weight: 600;
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.listInfo {
+    display: flex;
+    align-items: center;
+}
+
+.listInfo div {
+    margin-right: 10px;
+}
+
+.listDate {
+    color: gray;
+}
+
+.listStatus {
+    padding: 2px 5px 2px 5px;
+    border-radius: 10px;
+}
+
+.listStatus.cancelled {
+    color: #eb5e5e;
+    border: 1px solid #eb5e5e;
+}
+
+.listStatus.active {
+    color: #1bc47d;
+    border: 1px solid #1bc47d;
+}
+
+.listStatus.completed {
+    color: #6ed4f4;
+    border: 1px solid #6ed4f4;
+}

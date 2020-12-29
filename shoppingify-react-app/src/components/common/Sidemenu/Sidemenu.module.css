@@ -3,6 +3,8 @@
     flex-flow: column nowrap;
     background-color: white;
     width: 90px;
+    position: fixed;
+    height: 100%;
 }
 
 .top, .middle, .bottom {
