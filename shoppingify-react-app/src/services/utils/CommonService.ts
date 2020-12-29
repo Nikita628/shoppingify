@@ -23,12 +23,17 @@ class CommonService {
 
         const categories = Object.keys(categoryRes.data).map(k => Category.toModel({ ...categoryRes.data[k], id: k }));
         const items = Object.keys(itemRes.data).map(k => Item.toModel({ ...itemRes.data[k], id: k }));
-        const lists = Object.keys(listsRes.data).map(k => List.toModel({ ...listsRes.data[k], id: k }));
+        let lists = Object.keys(listsRes.data).map(k => List.toModel({ ...listsRes.data[k], id: k }));
+
+        lists = lists.sort((a, b) => {
+            return a.createdDate.getTime() - b.createdDate.getTime();
+        });
 
         const activeList = lists.find(l => l.status === ListStatus.Active);
 
         dispatch({ type: categoryAT.searchCategoriesSuccess, payload: categories });
         dispatch({ type: itemAT.searchItemsSuccess, payload: items });
+        dispatch({ type: listAT.searchListsSuccess, payload: lists });
 
         if (activeList) {
             dispatch({ type: listAT.getActiveListSuccess, payload: activeList });

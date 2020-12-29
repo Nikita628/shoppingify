@@ -30,7 +30,7 @@ let appState: IAppState = {
 
 export const useStore = (
     componentId: string,
-    listenToSliceUpdate?: "auth" | "category" | "common" | "item" | "all"
+    listenToSliceUpdate?: "auth" | "category" | "common" | "item" | "list" | "all"
 ): [IAppState, (action: IAction) => void] => {
     const setAppState = useState(appState)[1];
 

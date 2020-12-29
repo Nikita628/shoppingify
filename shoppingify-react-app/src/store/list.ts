@@ -8,12 +8,14 @@ export interface IListState {
     activeList: List;
     activeListItems: ListItem[];
     categoryNameToActiveListItems: { [categoryName: string]: ListItem[] };
+    lists: List[];
 }
 
 const initialState: IListState = {
     activeList: null,
     activeListItems: [],
     categoryNameToActiveListItems: {},
+    lists: [],
 };
 
 export const actionTypes = {
@@ -26,6 +28,8 @@ export const actionTypes = {
     createListSuccess: "List/CreateListSuccess",
     getActiveListSuccess: "List/GetActiveListSuccess",
     clearActiveList: "List/ClearActiveList",
+    searchListsSuccess: "List/SearchListsSuccess",
+    addListToLists: "List/AddListToLists",
 };
 
 const configureStore = () => {
@@ -153,6 +157,26 @@ const configureStore = () => {
                     activeList: null,
                     activeListItems: [],
                     categoryNameToActiveListItems: {},
+                }
+            };
+        },
+        [actionTypes.searchListsSuccess]: (state: IAppState, action: IAction<List[]>): IAppState => {
+            const lists = action.payload;
+
+            return {
+                list: {
+                    ...state.list,
+                    lists: lists,
+                }
+            };
+        },
+        [actionTypes.addListToLists]: (state: IAppState, action: IAction<List>): IAppState => {
+            let lists = [...state.list.lists, action.payload];
+
+            return {
+                list: {
+                    ...state.list,
+                    lists: lists,
                 }
             };
         },

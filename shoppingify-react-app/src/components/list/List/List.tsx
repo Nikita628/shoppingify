@@ -57,6 +57,7 @@ export const List = () => {
                     setListName("");
                     dispatch({ type: listAT.clearActiveList });
                     dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ListCreation });
+                    dispatch({ type: listAT.addListToLists, payload: updatedList });
                 })
                 .catch(err => {
                     setIsSaving(false);
@@ -80,6 +81,7 @@ export const List = () => {
                     setListName("");
                     dispatch({ type: listAT.clearActiveList });
                     dispatch({ type: commonAT.setSidedrawerMode, payload: SideDrawerMode.ListCreation });
+                    dispatch({ type: listAT.addListToLists, payload: newList });
                 })
                 .catch(err => {
                     setIsSaving(false);
