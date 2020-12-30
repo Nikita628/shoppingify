@@ -15,6 +15,7 @@
 .itemsInCategory {
     display: flex;
     flex-flow: row wrap;
+    max-width: 700px;
 }
 
 .categoryItem {
