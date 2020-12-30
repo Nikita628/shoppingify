@@ -4,7 +4,12 @@
 }
 
 .category {
-    margin-bottom: 20px;
+    margin-bottom: 40px;
+}
+
+.categoryName {
+    color: gray;
+    margin-bottom: 0;
 }
 
 .itemsInCategory {

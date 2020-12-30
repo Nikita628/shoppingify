@@ -1,14 +1,16 @@
 import React from "react";
 import Today from '@material-ui/icons/Today';
 import ArrowForward from '@material-ui/icons/ArrowForwardIos';
+import { useHistory } from "react-router-dom";
 
 import { useStore } from "../../store/useStore";
 import css from "./History.module.css";
 import { ListStatus } from "../../common/data";
-import { coClass } from "../../common/functions";
+import { coClass, formatDate } from "../../common/functions";
 
 export const History = () => {
-    const [appState, dispatch] = useStore("History", "list");
+    const appState = useStore("History", "list")[0];
+    const history = useHistory();
 
     const lists = appState.list.lists;
 
@@ -20,13 +22,13 @@ export const History = () => {
             <div className={css.content}>
                 {
                     lists.map(l =>
-                        <div key={l.id} className={css.list}>
+                        <div key={l.id} className={css.list} onClick={() => history.push("/history/" + l.id)}>
                             <div className={css.listName}>{l.name}</div>
                             <div className={css.listInfoContainer}>
                                 <div className={css.listInfo}>
                                     <div className={css.listDate}>
                                         <Today style={{marginRight: "5px"}} />
-                                        {l.createdDate.toString()}
+                                        {formatDate(l.createdDate)}
                                     </div>
                                     <div className={coClass(css.listStatus, css[getListStatusString(l.status)])}>
                                         {getListStatusString(l.status)}

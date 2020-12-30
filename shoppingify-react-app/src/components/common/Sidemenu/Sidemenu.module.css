@@ -15,7 +15,7 @@
 .top {
     display: flex;
     flex-flow: column nowrap;
-    justify-content: start;
+    justify-content: flex-start;
 }
 
 .middle {
@@ -27,7 +27,7 @@
 .bottom {
     display: flex;
     flex-flow: column nowrap;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .menuIcon {

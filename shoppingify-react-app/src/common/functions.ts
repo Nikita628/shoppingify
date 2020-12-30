@@ -13,3 +13,16 @@ export const coClass = (...classes: string[]) => {
 
     return cssClass;
 }
+
+export const formatDate = (date: Date): string => {
+    if (!date) return "";
+
+    const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    };
+
+    return date.toLocaleDateString("en-US", options)
+}
