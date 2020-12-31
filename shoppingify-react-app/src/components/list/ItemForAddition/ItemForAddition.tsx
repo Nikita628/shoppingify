@@ -17,7 +17,7 @@ export interface ItemForAdditionProps {
 const buttonStyle = { color: "orange", margin: "0 5px 0 5px" };
 
 export const ItemForAddition = (props: ItemForAdditionProps) => {
-    const [appState, dispatch] = useStore("ItemForAddition");
+    const dispatch = useStore("ItemForAddition")[1];
     const [isEditing, setIsEditing] = React.useState(false);
 
     const item = props.item;

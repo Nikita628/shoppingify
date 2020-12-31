@@ -1,0 +1,29 @@
+.statistics {
+    padding: 20px;
+}
+
+.header {
+    margin-bottom: 40px;
+}
+
+.listsCount {
+    margin-bottom: 20px;
+}
+
+.cancelledCount {
+    color: #eb5e5e;
+    font-weight: bold;
+}
+
+.completedCount {
+    color: #6ed4f4;
+    font-weight: bold;
+}
+
+.charts h4 {
+    text-align: center;
+}
+
+.topItems {
+    margin-bottom: 30px;
+}

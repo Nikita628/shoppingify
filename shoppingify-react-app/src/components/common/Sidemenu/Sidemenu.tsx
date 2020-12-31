@@ -60,7 +60,7 @@ export const Sidemenu = () => {
                     </OverlayTrigger>
                 </NavLink>
 
-                <NavLink to="statistics" exact activeClassName={css.activeMenuItem}>
+                <NavLink to="/statistics" exact activeClassName={css.activeMenuItem}>
                     <OverlayTrigger
                         placement="right"
                         delay={{ show: 100, hide: 200 }}

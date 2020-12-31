@@ -96,7 +96,7 @@ export const List = () => {
     };
 
     const cancelActiveList = (): void => {
-        saveListWithStatus(ListStatus.Canceled);
+        saveListWithStatus(ListStatus.Cancelled);
     };
 
     const saveActiveList = (): void => {

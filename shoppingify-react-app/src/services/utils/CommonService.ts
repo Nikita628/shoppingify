@@ -26,7 +26,7 @@ class CommonService {
         let lists = Object.keys(listsRes.data).map(k => List.toModel({ ...listsRes.data[k], id: k }));
 
         lists = lists.sort((a, b) => {
-            return a.createdDate.getTime() - b.createdDate.getTime();
+            return b.createdDate.getTime() - a.createdDate.getTime();
         });
 
         const activeList = lists.find(l => l.status === ListStatus.Active);

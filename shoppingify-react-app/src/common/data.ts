@@ -17,5 +17,5 @@ export enum SideDrawerMode {
 export enum ListStatus {
     Active = 1,
     Completed = 2,
-    Canceled = 3,
+    Cancelled = 3,
 }

@@ -50,7 +50,7 @@ export const History = () => {
 const getListStatusString = (status: ListStatus) => {
     switch (status) {
         case ListStatus.Active: return "active";
-        case ListStatus.Canceled: return "cancelled";
+        case ListStatus.Cancelled: return "cancelled";
         case ListStatus.Completed: return "completed";
         default: return "";
     }

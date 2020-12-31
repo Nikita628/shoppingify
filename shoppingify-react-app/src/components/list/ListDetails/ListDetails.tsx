@@ -14,6 +14,8 @@ export const ListDetails = () => {
 
     const list = appState.list.lists.find(l => l.id === params.listId);
 
+    if (!list) return null;
+
     return (
         <div className={css.listDetails}>
             <div className={css.backContainer}>
