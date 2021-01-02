@@ -44,6 +44,17 @@ export const Auth = () => {
         }
     };
 
+    const useDemoAccount = (): void => {
+        authApiClient.signin("name@name.com", "password")
+            .then((res) => {
+                authService.setAuthIntoLocalStorage(res.data);
+                dispatch({ type: actionTypes.signinSuccess, payload: res.data });
+            }).catch((err) => {
+                setIsLoading(false);
+                setError(err.response.data.error.message);
+            });
+    };
+
     return (
         <div className={css.auth}>
             <h3 className={css.formHeader}>
@@ -91,6 +102,10 @@ export const Auth = () => {
                 </button>
 
             </form>
+
+            <button className={css.demoAcc} onClick={useDemoAccount}>
+                click here to use demo account
+            </button>
 
             {error && <p className={css.error}>{error}</p>}
         </div>

@@ -5,6 +5,7 @@
     width: 90px;
     position: fixed;
     height: 100%;
+    border-right: 1px solid #eaeaea;
 }
 
 .top, .middle, .bottom {

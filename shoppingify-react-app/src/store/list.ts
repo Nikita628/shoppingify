@@ -171,7 +171,7 @@ const configureStore = () => {
             };
         },
         [actionTypes.addListToLists]: (state: IAppState, action: IAction<List>): IAppState => {
-            let lists = [...state.list.lists, action.payload];
+            let lists = [action.payload, ...state.list.lists];
 
             return {
                 list: {
