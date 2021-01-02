@@ -1,6 +1,7 @@
 # Shoppingify
 Create and manage your shopping list.
 
+**Live demo** - https://shoppingify-32fa1.web.app \
 **Frontend** - React + Custom hook to emulate redux global store.\
 **Backend** - Firestore database.
 
