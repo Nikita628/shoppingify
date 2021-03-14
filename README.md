@@ -1,5 +1,5 @@
 # Shoppingify
-Create and manage your shopping list.
+Web app than can help a user to create and manage their shopping lists.
 
 **Live demo** - https://shoppingify-32fa1.web.app \
 **Frontend** - React + Custom hook to emulate redux global store.\
